@@ -1,4 +1,4 @@
-﻿using OpenTK;
+﻿using System.Numerics;
 
 namespace BEngine2D.Input
 {

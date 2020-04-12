@@ -13,7 +13,7 @@ namespace BEngine2D
     public class BGame
     {
         protected GameWindow Window;
-        protected BView view;
+        protected BView Camera;
 
         protected BKeyboardListener KeyboardListener;
         protected BMouseListener MouseListener;
@@ -29,7 +29,7 @@ namespace BEngine2D
 
             // Graphics Stuff
             GL.Enable(EnableCap.Texture2D);
-            view = new BView(Vector2.Zero, 1.0, 0.0);
+            Camera = new BView(System.Numerics.Vector2.Zero, 1.0, 0.0);
 
             // Frames
             Window.Load += (object obj, EventArgs e) => { OnLoad(); };
@@ -41,8 +41,8 @@ namespace BEngine2D
             Window.KeyDown += (object sender, KeyboardKeyEventArgs e) => KeyboardListener.UpdateKey((BKey)e.Key, true);
             Window.KeyUp += (object sender, KeyboardKeyEventArgs e) => KeyboardListener.UpdateKey((BKey)e.Key, false);
             MouseListener = new BMouseListener();
-            Window.MouseDown += (object sender, MouseButtonEventArgs e) => MouseListener.UpdateButton((BMouseButton)e.Button, new Vector2(e.X, e.Y), true);
-            Window.MouseUp += (object sender, MouseButtonEventArgs e) => MouseListener.UpdateButton((BMouseButton)e.Button, new Vector2(e.X, e.Y), false);
+            Window.MouseDown += (object sender, MouseButtonEventArgs e) => MouseListener.UpdateButton((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y), true);
+            Window.MouseUp += (object sender, MouseButtonEventArgs e) => MouseListener.UpdateButton((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y), false);
             //TODO: Window.MouseWheel
 
             // Run the window
@@ -57,7 +57,7 @@ namespace BEngine2D
         public virtual void Tick(double delta)
         {
 
-            view.Update();
+            Camera.Update();
         }
 
         public void Render()
@@ -66,7 +66,7 @@ namespace BEngine2D
             GL.ClearColor(Color.White);
 
             GL.LoadIdentity();
-            view.ApplyTransform();
+            Camera.ApplyTransform();
 
             Draw();
 

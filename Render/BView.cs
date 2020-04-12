@@ -6,14 +6,14 @@ namespace BEngine2D.Render
 {
     public class BView
     {
-        public Vector2 Position;
+        public System.Numerics.Vector2 Position;
 
         /// In radians, + = clockwise
         public double Rotation;
 
         public double Zoom;
 
-        public BView(Vector2 startPosition, double startZoom = 1.0, double startRotation = 1.0)
+        public BView(System.Numerics.Vector2 startPosition, double startZoom = 1.0, double startRotation = 1.0)
         {
             this.Position = startPosition;
             this.Zoom = startZoom;
