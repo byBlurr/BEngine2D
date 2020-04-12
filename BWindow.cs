@@ -21,11 +21,8 @@ namespace BEngine2D
         public BGame(string title, double fps, double ups)
         {
             // Setup window
-            Window = new GameWindow();
+            Window = new GameWindow(640, 480);
             Window.Title = title + " - BEngine2D";
-
-            if (AppSettings.WINDOW_FULLSCREEN) Window.WindowState = WindowState.Fullscreen;
-            else Window.WindowState = WindowState.Normal;
 
             // Graphics Stuff
             GL.Enable(EnableCap.Texture2D);
@@ -65,7 +62,7 @@ namespace BEngine2D
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.ClearColor(Color.White);
 
-            GL.LoadIdentity();
+            BGraphics.Begin(Window.Width, Window.Height);
             Camera.ApplyTransform();
 
             Draw();
