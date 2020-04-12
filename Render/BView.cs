@@ -1,28 +1,114 @@
 ﻿using OpenTK;
 using OpenTK.Graphics.OpenGL;
+using System;
 using System.Drawing;
 
 namespace BEngine2D.Render
 {
+    public enum BTweenType
+    {
+        Instant,
+        Linear,
+        QuadraticInOut,
+        CubicInOut,
+        QuarticOut,
+    }
+
     public class BView
     {
-        public System.Numerics.Vector2 Position;
+        private System.Numerics.Vector2 Position { get; set; }
 
         /// In radians, + = clockwise
         public double Rotation;
 
         public double Zoom;
 
+        private System.Numerics.Vector2 PositionGoto, PositionFrom;
+        private BTweenType TweenType;
+        private int CurrentStep, TweenSteps;
+
+        public System.Numerics.Vector2 ToWorld(System.Numerics.Vector2 input)
+        {
+            input /= (float)Zoom;
+            System.Numerics.Vector2 dX = new System.Numerics.Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation));
+            System.Numerics.Vector2 dY = new System.Numerics.Vector2((float)Math.Cos(Rotation + MathHelper.PiOver2), (float)Math.Sin(Rotation + MathHelper.PiOver2));
+
+            return (Position + dX * input.X + dY * input.Y);
+        }
+
         public BView(System.Numerics.Vector2 startPosition, double startZoom = 1.0, double startRotation = 1.0)
         {
-            this.Position = startPosition;
-            this.Zoom = startZoom;
-            this.Rotation = startRotation;
+            Position = startPosition;
+            Zoom = startZoom;
+            Rotation = startRotation;
         }
 
         public void Update()
         {
+            if (CurrentStep < TweenSteps)
+            {
+                switch (TweenType)
+                {
+                    case BTweenType.Linear:
+                        Position = PositionFrom + (PositionGoto - PositionFrom) * GetLinear((float)CurrentStep / TweenSteps);
+                        break;
+                    case BTweenType.QuadraticInOut:
+                        Position = PositionFrom + (PositionGoto - PositionFrom) * GetQuadraticInOut((float)CurrentStep / TweenSteps);
+                        break;
+                    case BTweenType.CubicInOut:
+                        Position = PositionFrom + (PositionGoto - PositionFrom) * GetCubicInOut((float)CurrentStep / TweenSteps);
+                        break;
+                    case BTweenType.QuarticOut:
+                        Position = PositionFrom + (PositionGoto - PositionFrom) * GetQuarticOut((float)CurrentStep / TweenSteps);
+                        break;
+                }
 
+                CurrentStep++;
+            }
+            else
+            {
+                Position = PositionGoto;
+            }
+        }
+
+        public void SetPosition(System.Numerics.Vector2 newPosition)
+        {
+            Position = newPosition;
+            PositionFrom = newPosition;
+            PositionGoto = newPosition;
+            TweenType = BTweenType.Instant;
+            CurrentStep = 0;
+            TweenSteps = 0;
+        }
+
+        public void SetPosition(System.Numerics.Vector2 newPosition, BTweenType type, int numSteps)
+        {
+            PositionFrom = Position;
+            Position = newPosition;
+            PositionGoto = newPosition;
+            TweenType = type;
+            CurrentStep = 0;
+            TweenSteps = numSteps;
+        }
+
+        public float GetLinear(float t)
+        {
+            return t;
+        }
+
+        public float GetQuadraticInOut(float t)
+        {
+            return (t * t) / ((2 * t * t) - (2 * t) + 1);
+        }
+
+        public float GetCubicInOut(float t)
+        {
+            return (t * t * t) / ((3 * t * t) - (3 * t) + 1);
+        }
+
+        public float GetQuarticOut(float t)
+        {
+            return -((t - 1) * (t - 1) * (t - 1) * (t - 1)) + 1;
         }
 
         public void ApplyTransform()

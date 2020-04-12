@@ -15,6 +15,8 @@ namespace BEngine2D
         protected GameWindow Window;
         protected BView Camera;
 
+        protected int Width, Height;
+
         protected BKeyboardListener KeyboardListener;
         protected BMouseListener MouseListener;
 
@@ -23,6 +25,8 @@ namespace BEngine2D
             // Setup window
             Window = new GameWindow(640, 480);
             Window.Title = title + " - BEngine2D";
+            Width = Window.Width;
+            Height = Window.Height;
 
             // Graphics Stuff
             GL.Enable(EnableCap.Texture2D);
@@ -39,6 +43,7 @@ namespace BEngine2D
             Window.KeyUp += (object sender, KeyboardKeyEventArgs e) => KeyboardListener.UpdateKey((BKey)e.Key, false);
             MouseListener = new BMouseListener();
             Window.MouseDown += (object sender, MouseButtonEventArgs e) => MouseListener.UpdateButton((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y), true);
+            Window.MouseDown += (object sender, MouseButtonEventArgs e) => { OnMouseDown((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y)); };
             Window.MouseUp += (object sender, MouseButtonEventArgs e) => MouseListener.UpdateButton((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y), false);
             //TODO: Window.MouseWheel
 
@@ -71,6 +76,10 @@ namespace BEngine2D
         }
 
         public virtual void Draw()
+        {
+
+        }
+        public virtual void OnMouseDown(BMouseButton button, System.Numerics.Vector2 position)
         {
 
         }

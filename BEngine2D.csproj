@@ -49,7 +49,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BWindow.cs" />
+    <Compile Include="BGame.cs" />
     <Compile Include="Input\BKeyboardListener.cs" />
     <Compile Include="Input\BMouseClickInfo.cs" />
     <Compile Include="Input\BMouseListener.cs" />
