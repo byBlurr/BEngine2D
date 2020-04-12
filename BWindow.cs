@@ -1,8 +1,8 @@
 ﻿using BEngine2D.Input;
 using BEngine2D.Util;
 using OpenTK;
+using OpenTK.Graphics.OpenGL;
 using OpenTK.Graphics;
-using OpenTK.Graphics.ES20;
 using OpenTK.Input;
 using System;
 
@@ -18,13 +18,15 @@ namespace BEngine2D
         {
             // Setup window
             Window = new GameWindow();
-            GL.ClearColor(Color4.White);
+            GL.Enable(EnableCap.Texture2D);
+
             Window.Title = title + " - BEngine2D";
 
             if (AppSettings.WINDOW_FULLSCREEN) Window.WindowState = WindowState.Fullscreen;
             else Window.WindowState = WindowState.Maximized;
 
             // Frames
+            Window.Load += (object obj, EventArgs e) => { OnLoad(); };
             Window.UpdateFrame += (object obj, FrameEventArgs args) => { Tick(args.Time); };
             Window.RenderFrame += (object obj, FrameEventArgs args) => { Render(); };
 
@@ -41,13 +43,17 @@ namespace BEngine2D
             Window.Run(ups, fps);
         }
 
+        public virtual void OnLoad()
+        {
+
+        }
+
         public virtual void Tick(double delta)
         {
         }
 
         public virtual void Render()
         {
-            GL.Clear(ClearBufferMask.ColorBufferBit);
             Window.SwapBuffers();
         }
     }
