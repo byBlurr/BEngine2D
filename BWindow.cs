@@ -18,8 +18,11 @@ namespace BEngine2D
         {
             // Setup window
             Window = new GameWindow();
-            Window.Title = title;
-            Window.WindowState = WindowState.Fullscreen;
+            GL.ClearColor(Color4.White);
+            Window.Title = title + " - BEngine2D";
+
+            if (AppSettings.WINDOW_FULLSCREEN) Window.WindowState = WindowState.Fullscreen;
+            else Window.WindowState = WindowState.Maximized;
 
             // Frames
             Window.UpdateFrame += (object obj, FrameEventArgs args) => { Tick(args.Time); };
@@ -34,8 +37,7 @@ namespace BEngine2D
             Window.MouseUp += (object sender, MouseButtonEventArgs e) => MouseListener.UpdateButton((BMouseButton)e.Button, new VectorInt(e.X, e.Y), false);
             //TODO: Window.MouseWheel
 
-            GL.ClearColor(Color4.White);
-
+            // Run the window
             Window.Run(ups, fps);
         }
 
