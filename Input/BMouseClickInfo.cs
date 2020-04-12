@@ -1,16 +1,16 @@
-﻿using BEngine2D.Util;
+﻿using OpenTK;
 
 namespace BEngine2D.Input
 {
     public class BMouseClickInfo
     {
         public bool IsPressed { get; set; }
-        public VectorInt Location { get; set; }
+        public Vector2 Location { get; set; }
 
         public BMouseClickInfo()
         {
             IsPressed = false;
-            Location = new VectorInt();
+            Location = new Vector2();
         }
     }
 }

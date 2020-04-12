@@ -5,12 +5,16 @@ using OpenTK.Graphics.OpenGL;
 using OpenTK.Graphics;
 using OpenTK.Input;
 using System;
+using BEngine2D.Render;
+using System.Drawing;
 
 namespace BEngine2D
 {
     public class BGame
     {
         protected GameWindow Window;
+        protected BView view;
+
         protected BKeyboardListener KeyboardListener;
         protected BMouseListener MouseListener;
 
@@ -18,12 +22,14 @@ namespace BEngine2D
         {
             // Setup window
             Window = new GameWindow();
-            GL.Enable(EnableCap.Texture2D);
-
             Window.Title = title + " - BEngine2D";
 
             if (AppSettings.WINDOW_FULLSCREEN) Window.WindowState = WindowState.Fullscreen;
-            else Window.WindowState = WindowState.Maximized;
+            else Window.WindowState = WindowState.Normal;
+
+            // Graphics Stuff
+            GL.Enable(EnableCap.Texture2D);
+            view = new BView(Vector2.Zero, 1.0, 0.0);
 
             // Frames
             Window.Load += (object obj, EventArgs e) => { OnLoad(); };
@@ -35,8 +41,8 @@ namespace BEngine2D
             Window.KeyDown += (object sender, KeyboardKeyEventArgs e) => KeyboardListener.UpdateKey((BKey)e.Key, true);
             Window.KeyUp += (object sender, KeyboardKeyEventArgs e) => KeyboardListener.UpdateKey((BKey)e.Key, false);
             MouseListener = new BMouseListener();
-            Window.MouseDown += (object sender, MouseButtonEventArgs e) => MouseListener.UpdateButton((BMouseButton)e.Button, new VectorInt(e.X, e.Y), true);
-            Window.MouseUp += (object sender, MouseButtonEventArgs e) => MouseListener.UpdateButton((BMouseButton)e.Button, new VectorInt(e.X, e.Y), false);
+            Window.MouseDown += (object sender, MouseButtonEventArgs e) => MouseListener.UpdateButton((BMouseButton)e.Button, new Vector2(e.X, e.Y), true);
+            Window.MouseUp += (object sender, MouseButtonEventArgs e) => MouseListener.UpdateButton((BMouseButton)e.Button, new Vector2(e.X, e.Y), false);
             //TODO: Window.MouseWheel
 
             // Run the window
@@ -50,11 +56,26 @@ namespace BEngine2D
 
         public virtual void Tick(double delta)
         {
+
+            view.Update();
         }
 
-        public virtual void Render()
+        public void Render()
         {
+            GL.Clear(ClearBufferMask.ColorBufferBit);
+            GL.ClearColor(Color.White);
+
+            GL.LoadIdentity();
+            view.ApplyTransform();
+
+            Draw();
+
             Window.SwapBuffers();
+        }
+
+        public virtual void Draw()
+        {
+
         }
     }
 }

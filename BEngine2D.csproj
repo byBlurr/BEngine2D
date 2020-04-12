@@ -54,9 +54,9 @@
     <Compile Include="Render\BContentPipe.cs" />
     <Compile Include="Render\BGraphics.cs" />
     <Compile Include="Render\BTexture2D.cs" />
+    <Compile Include="Render\BView.cs" />
     <Compile Include="Util\AppInfo.cs" />
     <Compile Include="Util\AppSettings.cs" />
-    <Compile Include="Util\Vector.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config" />

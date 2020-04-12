@@ -1,4 +1,5 @@
 ﻿using BEngine2D.Util;
+using OpenTK;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,7 +31,7 @@ namespace BEngine2D.Input
             else return result;
         }
 
-        public void UpdateButton(BMouseButton button, VectorInt location, bool state)
+        public void UpdateButton(BMouseButton button, Vector2 location, bool state)
         {
             if (ButtonStates[(int)button].IsPressed == state) return;
             ButtonStates[(int)button].IsPressed = state;
