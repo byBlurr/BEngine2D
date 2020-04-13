@@ -56,7 +56,6 @@ namespace BEngine2D
 
         public virtual void Tick(double delta)
         {
-
             Camera.Update();
         }
 
@@ -74,10 +73,6 @@ namespace BEngine2D
         }
 
         public virtual void Draw()
-        {
-
-        }
-        public virtual void OnMouseDown(BMouseButton button, System.Numerics.Vector2 position)
         {
 
         }

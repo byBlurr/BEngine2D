@@ -30,14 +30,6 @@ namespace BEngine2D.Render
 
 
 
-        public System.Numerics.Vector2 ToWorld(System.Numerics.Vector2 input)
-        {
-            input /= (float)Zoom;
-            System.Numerics.Vector2 dX = new System.Numerics.Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation));
-            System.Numerics.Vector2 dY = new System.Numerics.Vector2((float)Math.Cos(Rotation + MathHelper.PiOver2), (float)Math.Sin(Rotation + MathHelper.PiOver2));
-
-            return (Position + dX * input.X + dY * input.Y);
-        }
 
         public BView(System.Numerics.Vector2 startPosition, double startZoom = 1.0, double startRotation = 1.0)
         {
@@ -96,7 +88,17 @@ namespace BEngine2D.Render
 
         public float GetDistanceFromLocation(System.Numerics.Vector2 location)
         {
+            Console.WriteLine($"Player: {location}, Camera: {Position}");
             return System.Numerics.Vector2.Distance(Position, location);
+        }
+
+        public System.Numerics.Vector2 ToWorld(System.Numerics.Vector2 input)
+        {
+            input /= (float)Zoom;
+            System.Numerics.Vector2 dX = new System.Numerics.Vector2((float)Math.Cos(Rotation), (float)Math.Sin(Rotation));
+            System.Numerics.Vector2 dY = new System.Numerics.Vector2((float)Math.Cos(Rotation + MathHelper.PiOver2), (float)Math.Sin(Rotation + MathHelper.PiOver2));
+
+            return (Position + dX * input.X + dY * input.Y);
         }
 
         public float GetLinear(float t)
