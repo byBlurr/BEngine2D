@@ -8,6 +8,8 @@ using System.Drawing;
 using System.IO;
 using System.Numerics;
 using Newtonsoft.Json.Serialization;
+using BEngine2D.World.Blocks;
+using BEngine2D.Util;
 
 namespace BEngine2D.World
 {
@@ -56,7 +58,7 @@ namespace BEngine2D.World
         {
             grid = new BBlock[width, height];
             filename = "none";
-            playerStartPos = new Point(1, 1);
+            playerStartPos = new Point((int)(width / AppInfo.TILESIZE), (int)(height / AppInfo.TILESIZE));
 
             for (int x = 0; x < width; x++)
             {
@@ -131,133 +133,4 @@ namespace BEngine2D.World
             }
         }
     }
-
-    public class BBlocks
-    {
-        public static BBlock[] Blocks;
-
-        public static void Initialise()
-        {
-            Blocks = new BBlock[]
-            {
-                new BBlock("OutsideBounds", BBlockType.Empty),
-                new BBlock("Air", BBlockType.Empty),
-                new BBlock("Grass", BBlockType.Ground),
-                new BBlock("Tree", BBlockType.Solid),
-            };
-
-        }
-    }
-
-    public enum BBlockType 
-    {   
-        Empty, Ground, Solid, Entity
-    }
-
-    public struct BBlock
-    {
-        private string name;
-        private BBlockType type;
-        private int posX, posY;
-        private bool solid, ground;
-
-        public string Name
-        {
-            get
-            {
-                return name;
-            }
-        }
-        public BBlockType Type
-        {
-            get
-            {
-                return type;
-            }
-        }
-        public int PosX
-        {
-            get
-            {
-                return posX;
-            }
-        }
-        public int PosY
-        {
-            get
-            {
-                return posY;
-            }
-        }
-        public bool IsSolid
-        {
-            get
-            {
-                return solid;
-            }
-        }
-        public bool IsGround
-        {
-            get
-            {
-                return ground;
-            }
-        }
-
-    public BBlock(string name, BBlockType type, int x, int y)
-    {
-        this.name = name;
-        this.type = type;
-        posX = x;
-        posY = y;
-
-        solid = false;
-        ground = false;
-
-        switch (type)
-        {
-            case BBlockType.Empty:
-                solid = true;
-                break;
-            case BBlockType.Ground:
-                ground = true;
-                break;
-            case BBlockType.Solid:
-                solid = true;
-                break;
-            default:
-                solid = false;
-                ground = false;
-                break;
-        }
-    }
-
-    public BBlock(string name, BBlockType type)
-    {
-        this.name = name;
-        this.type = type;
-        posX = 0;
-        posY = 0;
-
-        solid = false;
-        ground = false;
-
-        switch (type)
-        {
-            case BBlockType.Empty:
-                solid = true;
-                break;
-            case BBlockType.Ground:
-                ground = true;
-                break;
-            case BBlockType.Solid:
-                solid = true;
-                break;
-            default:
-                solid = false;
-                ground = false;
-                break;
-        }
-    }
-}
 }

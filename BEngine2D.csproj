@@ -66,6 +66,9 @@
     <Compile Include="Util\AppSettings.cs" />
     <Compile Include="World\BLevel.cs" />
     <Compile Include="World\BLevelFile.cs" />
+    <Compile Include="World\Blocks\BBlock.cs" />
+    <Compile Include="World\Blocks\BBlocks.cs" />
+    <Compile Include="World\Blocks\BBlockType.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="OpenTK.dll.config" />
