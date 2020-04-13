@@ -62,7 +62,7 @@ namespace BEngine2D
         public void Render()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            GL.ClearColor(Color.White);
+            GL.ClearColor(Color.Green);
 
             BGraphics.Begin(Window.Width, Window.Height);
             Camera.ApplyTransform();

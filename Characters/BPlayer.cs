@@ -1,5 +1,6 @@
 ﻿using BEngine2D.Input;
 using BEngine2D.Render;
+using BEngine2D.Util;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -12,7 +13,7 @@ namespace BEngine2D.Entity
 {
     public class BPlayer
     {
-        public Vector2 position, velocity;
+        public Vector2 position, positionGoto, velocity;
         private float speed, acceleration;
         private Vector2 size;
 
@@ -41,6 +42,7 @@ namespace BEngine2D.Entity
         public BPlayer(Vector2 startPos)
         {
             this.position = startPos;
+            this.positionGoto = startPos;
             this.velocity = Vector2.Zero;
             this.speed = 10.0f;
             this.acceleration = 0.2f;
@@ -57,71 +59,21 @@ namespace BEngine2D.Entity
         {
             HandleInput();
 
-            this.position += (velocity * (float) delta);
+            this.position += (velocity * (float)delta);
+
+            if (positionGoto.Y - this.position.Y >= 1.0f) velocity.Y = Math.Min(20.0f, (positionGoto.Y - this.position.Y));
+            else if (this.position.Y - positionGoto.Y >= 1.0f) velocity.Y = Math.Max(-20.0f, -(this.position.Y - positionGoto.Y));
+            else velocity.Y = 0.0f;
+
+            if (positionGoto.X - this.position.X >= 1.0f) velocity.X = Math.Min(20.0f, (positionGoto.X - this.position.X));
+            else if (this.position.X - positionGoto.X >= 1.0f) velocity.X = Math.Max(-20.0f, -(this.position.X - positionGoto.X));
+            else velocity.X = 0.0f;
+
             ResolveCollision();
         }
 
         public void HandleInput()
         {
-            if (BKeyboardListener.IsKeyPressed(BKey.W))
-            {
-                facingUp = true;
-            }
-            else facingUp = false;
-            if (BKeyboardListener.IsKeyPressed(BKey.S))
-            {
-                facingDown = true;
-            }
-            else facingDown = false;
-
-            if (facingUp && !facingDown)
-            {
-                velocity.Y -= speed / acceleration;
-                if (velocity.Y < -speed) velocity.Y = -speed;
-            } 
-            else if (!facingUp && facingDown)
-            {
-                velocity.Y += speed / acceleration;
-                if (velocity.Y > speed) velocity.Y = speed;
-            }
-            else if (!facingUp && !facingDown)
-            {
-                velocity.Y = 0;
-            }
-            else if (facingUp && facingDown)
-            {
-                velocity.Y = 0;
-            }
-
-            if (BKeyboardListener.IsKeyPressed(BKey.D))
-            {
-                facingRight = true;
-            }
-            else facingRight = false;
-            if (BKeyboardListener.IsKeyPressed(BKey.A))
-            {
-                facingLeft = true;
-            }
-            else facingLeft = false;
-
-            if (facingRight && !facingLeft)
-            {
-                velocity.X += speed / acceleration;
-                if (velocity.X > speed) velocity.X = speed;
-            }
-            else if (!facingRight && facingLeft)
-            {
-                velocity.X -= speed / acceleration;
-                if (velocity.X < -speed) velocity.X = -speed;
-            }
-            else if (!facingRight && !facingLeft)
-            {
-                velocity.X = 0;
-            }
-            else if (facingRight && facingLeft)
-            {
-                velocity.X = 0;
-            }
         }
 
         public void ResolveCollision()
@@ -141,5 +93,7 @@ namespace BEngine2D.Entity
                 new RectangleF(0, 0, playerSprite.Width / 5f, playerSprite.Height/2)
             );
         }
+
+        public void MoveToPosition(System.Numerics.Vector2 position) => positionGoto = position;
     }
 }
