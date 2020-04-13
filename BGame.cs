@@ -27,6 +27,8 @@ namespace BEngine2D
 
             // Graphics Stuff
             GL.Enable(EnableCap.Texture2D);
+            GL.Enable(EnableCap.Blend);
+            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             Camera = new BView(System.Numerics.Vector2.Zero, 1.0, 0.0);
 
             // Frames
