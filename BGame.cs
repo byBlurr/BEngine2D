@@ -17,9 +17,6 @@ namespace BEngine2D
 
         protected int Width, Height;
 
-        protected BKeyboardListener KeyboardListener;
-        protected BMouseListener MouseListener;
-
         public BGame(string title, double fps, double ups, int width = 1280, int height = 720)
         {
             // Setup window
@@ -38,13 +35,12 @@ namespace BEngine2D
             Window.RenderFrame += (object obj, FrameEventArgs args) => { Render(); };
 
             // Input
-            KeyboardListener = new BKeyboardListener();
-            Window.KeyDown += (object sender, KeyboardKeyEventArgs e) => KeyboardListener.UpdateKey((BKey)e.Key, true);
-            Window.KeyUp += (object sender, KeyboardKeyEventArgs e) => KeyboardListener.UpdateKey((BKey)e.Key, false);
-            MouseListener = new BMouseListener();
-            Window.MouseDown += (object sender, MouseButtonEventArgs e) => MouseListener.UpdateButton((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y), true);
-            Window.MouseDown += (object sender, MouseButtonEventArgs e) => { OnMouseDown((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y)); };
-            Window.MouseUp += (object sender, MouseButtonEventArgs e) => MouseListener.UpdateButton((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y), false);
+            BKeyboardListener.Initialize();
+            BMouseListener.Initialize();
+            Window.KeyDown += (object sender, KeyboardKeyEventArgs e) => BKeyboardListener.UpdateKey((BKey)e.Key, true);
+            Window.KeyUp += (object sender, KeyboardKeyEventArgs e) => BKeyboardListener.UpdateKey((BKey)e.Key, false);
+            Window.MouseDown += (object sender, MouseButtonEventArgs e) => BMouseListener.UpdateButton((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y), true);
+            Window.MouseUp += (object sender, MouseButtonEventArgs e) => BMouseListener.UpdateButton((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y), false);
             //TODO: Window.MouseWheel
 
             // Run the window
