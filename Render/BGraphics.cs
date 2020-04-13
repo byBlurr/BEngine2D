@@ -12,7 +12,7 @@ namespace BEngine2D.Render
 {
     public class BGraphics
     {
-        public static void Draw(BTexture2D texture, System.Numerics.Vector2 position, System.Numerics.Vector2 scale, Color color, System.Numerics.Vector2 origin)
+        public static void Draw(BTexture2D texture, System.Numerics.Vector2 position, System.Numerics.Vector2 scale, Color color, System.Numerics.Vector2 origin, RectangleF? sourceRec = null)
         {
             System.Numerics.Vector2[] vertices = new System.Numerics.Vector2[4]
             {
@@ -28,9 +28,12 @@ namespace BEngine2D.Render
             GL.Color3(color);
             for (int i = 0; i < 4; i++)
             {
-                GL.TexCoord2(vertices[i].X, vertices[i].Y);
-                vertices[i].X *= texture.Width;
-                vertices[i].Y *= texture.Width;
+                if (sourceRec == null) GL.TexCoord2(vertices[i].X, vertices[i].Y);
+                else GL.TexCoord2((sourceRec.Value.Left + vertices[i].X * sourceRec.Value.Width) / texture.Width,
+                    (sourceRec.Value.Top + vertices[i].Y * sourceRec.Value.Height) / texture.Height);
+
+                vertices[i].X *= (sourceRec == null) ? texture.Width : sourceRec.Value.Width;
+                vertices[i].Y *= (sourceRec == null) ? texture.Height : sourceRec.Value.Height;
                 vertices[i] -= origin;
                 vertices[i] *= scale;
                 vertices[i] += position;
