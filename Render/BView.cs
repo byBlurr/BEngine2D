@@ -23,9 +23,12 @@ namespace BEngine2D.Render
 
         public double Zoom;
 
-        private System.Numerics.Vector2 PositionGoto, PositionFrom;
+        private System.Numerics.Vector2 PositionGoto { get; set; }
+        private System.Numerics.Vector2 PositionFrom;
         private BTweenType TweenType;
         private int CurrentStep, TweenSteps;
+
+
 
         public System.Numerics.Vector2 ToWorld(System.Numerics.Vector2 input)
         {
@@ -47,6 +50,8 @@ namespace BEngine2D.Render
         {
             if (CurrentStep < TweenSteps)
             {
+                CurrentStep++;
+
                 switch (TweenType)
                 {
                     case BTweenType.Linear:
@@ -62,8 +67,6 @@ namespace BEngine2D.Render
                         Position = PositionFrom + (PositionGoto - PositionFrom) * GetQuarticOut((float)CurrentStep / TweenSteps);
                         break;
                 }
-
-                CurrentStep++;
             }
             else
             {
