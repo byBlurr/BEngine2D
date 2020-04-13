@@ -94,6 +94,11 @@ namespace BEngine2D.Render
             TweenSteps = numSteps;
         }
 
+        public float GetDistanceFromLocation(System.Numerics.Vector2 location)
+        {
+            return System.Numerics.Vector2.Distance(Position, location);
+        }
+
         public float GetLinear(float t)
         {
             return t;
