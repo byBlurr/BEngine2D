@@ -20,10 +20,10 @@ namespace BEngine2D
         protected BKeyboardListener KeyboardListener;
         protected BMouseListener MouseListener;
 
-        public BGame(string title, double fps, double ups)
+        public BGame(string title, double fps, double ups, int width = 1280, int height = 720)
         {
             // Setup window
-            Window = new GameWindow(640, 480);
+            Window = new GameWindow(width, height);
             Window.Title = title + " - BEngine2D";
             Width = Window.Width;
             Height = Window.Height;
