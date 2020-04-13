@@ -56,7 +56,7 @@ namespace BEngine2D.World
         {
             grid = new BBlock[width, height];
             filename = "none";
-            playerStartPos = new Point(1,1);
+            playerStartPos = new Point(1, 1);
 
             for (int x = 0; x < width; x++)
             {
@@ -64,11 +64,11 @@ namespace BEngine2D.World
                 {
                     if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
                     {
-                        grid[x, y] = new BBlock(BBlockType.Solid, x, y);
+                        grid[x, y] = new BBlock("Tree", BBlockType.Solid, x, y);
                     }
                     else
                     {
-                        grid[x, y] = new BBlock(BBlockType.Floor, x, y);
+                        grid[x, y] = new BBlock("Grass", BBlockType.Ground, x, y);
                     }
                 }
             }
@@ -92,18 +92,7 @@ namespace BEngine2D.World
                 int y = 0;
                 for (int i = 0; i < Tiles.Length; i++)
                 {
-                    switch (Tiles[i])
-                    {
-                        case 2:
-                            grid[x, y] = new BBlock(BBlockType.Floor, x, y);
-                            break;
-                        case 3:
-                            grid[x, y] = new BBlock(BBlockType.Solid, x, y);
-                            break;
-                        default:
-                            grid[x, y] = new BBlock(BBlockType.Empty, x, y);
-                            break;
-                    }
+                    grid[x, y] = new BBlock(BBlocks.Blocks[Tiles[i]].Name, BBlocks.Blocks[Tiles[i]].Type, x, y);
 
                     x++;
                     if (x >= width)
@@ -113,7 +102,7 @@ namespace BEngine2D.World
                     }
                 }
 
-                playerStartPos = new Point(width/2, height/2);
+                playerStartPos = new Point(width / 2, height / 2);
             }
             catch (Exception e)
             {
@@ -131,11 +120,11 @@ namespace BEngine2D.World
                     {
                         if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
                         {
-                            grid[x, y] = new BBlock(BBlockType.Solid, x, y);
+                            grid[x, y] = new BBlock("Tree", BBlockType.Solid, x, y);
                         }
                         else
                         {
-                            grid[x, y] = new BBlock(BBlockType.Floor, x, y);
+                            grid[x, y] = new BBlock("Grass", BBlockType.Ground, x, y);
                         }
                     }
                 }
@@ -143,19 +132,42 @@ namespace BEngine2D.World
         }
     }
 
-    public enum BBlockType
+    public class BBlocks
     {
-        Empty,
-        Floor,
-        Solid,
+        public static BBlock[] Blocks;
+
+        public static void Initialise()
+        {
+            Blocks = new BBlock[]
+            {
+                new BBlock("OutsideBounds", BBlockType.Empty),
+                new BBlock("Air", BBlockType.Empty),
+                new BBlock("Grass", BBlockType.Ground),
+                new BBlock("Tree", BBlockType.Solid),
+            };
+
+        }
+    }
+
+    public enum BBlockType 
+    {   
+        Empty, Ground, Solid, Entity
     }
 
     public struct BBlock
     {
+        private string name;
         private BBlockType type;
         private int posX, posY;
-        private bool solid, floor;
+        private bool solid, ground;
 
+        public string Name
+        {
+            get
+            {
+                return name;
+            }
+        }
         public BBlockType Type
         {
             get
@@ -184,36 +196,68 @@ namespace BEngine2D.World
                 return solid;
             }
         }
-        public bool IsFloor
+        public bool IsGround
         {
             get
             {
-                return floor;
+                return ground;
             }
         }
 
-        public BBlock(BBlockType type, int x, int y)
+    public BBlock(string name, BBlockType type, int x, int y)
+    {
+        this.name = name;
+        this.type = type;
+        posX = x;
+        posY = y;
+
+        solid = false;
+        ground = false;
+
+        switch (type)
         {
-            this.type = type;
-            posX = x;
-            posY = y;
-
-            solid = false;
-            floor = false;
-
-            switch (this.type)
-            {
-                case BBlockType.Floor:
-                    floor = true;
-                    break;
-                case BBlockType.Solid:
-                    solid = true;
-                    break;
-                default:
-                    solid = false;
-                    floor = false;
-                    break;
-            }
+            case BBlockType.Empty:
+                solid = true;
+                break;
+            case BBlockType.Ground:
+                ground = true;
+                break;
+            case BBlockType.Solid:
+                solid = true;
+                break;
+            default:
+                solid = false;
+                ground = false;
+                break;
         }
     }
+
+    public BBlock(string name, BBlockType type)
+    {
+        this.name = name;
+        this.type = type;
+        posX = 0;
+        posY = 0;
+
+        solid = false;
+        ground = false;
+
+        switch (type)
+        {
+            case BBlockType.Empty:
+                solid = true;
+                break;
+            case BBlockType.Ground:
+                ground = true;
+                break;
+            case BBlockType.Solid:
+                solid = true;
+                break;
+            default:
+                solid = false;
+                ground = false;
+                break;
+        }
+    }
+}
 }
