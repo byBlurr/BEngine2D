@@ -9,16 +9,17 @@ using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BEngine2D.Entity
+namespace BEngine2D.Characters
 {
     public class BPlayer
     {
         public Vector2 position, positionGoto, velocity;
-        private float speed, acceleration;
+        private float speed;
         private Vector2 size;
 
         private BTexture2D playerSprite;
         private bool facingRight, facingLeft, facingUp, facingDown, sprinting;
+        private BMovementType movementType;
 
         public RectangleF ColRec
         {
@@ -39,13 +40,13 @@ namespace BEngine2D.Entity
             }
         }
 
-        public BPlayer(Vector2 startPos)
+        public BPlayer(Vector2 startPos, BMovementType movementType = BMovementType.MoveToPosition)
         {
             this.position = startPos;
             this.positionGoto = startPos;
             this.velocity = Vector2.Zero;
-            this.speed = 10.0f;
-            this.acceleration = 0.2f;
+            this.speed = 20.0f;
+            this.movementType = movementType;
             facingRight = false;
             facingLeft = false;
             facingUp = false;
@@ -59,15 +60,18 @@ namespace BEngine2D.Entity
         {
             HandleInput();
 
+            if (movementType == BMovementType.MoveToPosition)
+            {
+                if (positionGoto.Y - this.position.Y >= 1.0f) velocity.Y = Math.Min(speed, (positionGoto.Y - this.position.Y));
+                else if (this.position.Y - positionGoto.Y >= 1.0f) velocity.Y = Math.Max(-speed, -(this.position.Y - positionGoto.Y));
+                else velocity.Y = 0.0f;
+
+                if (positionGoto.X - this.position.X >= 1.0f) velocity.X = Math.Min(speed, (positionGoto.X - this.position.X));
+                else if (this.position.X - positionGoto.X >= 1.0f) velocity.X = Math.Max(-speed, -(this.position.X - positionGoto.X));
+                else velocity.X = 0.0f;
+            }
+
             this.position += (velocity * (float)delta);
-
-            if (positionGoto.Y - this.position.Y >= 1.0f) velocity.Y = Math.Min(20.0f, (positionGoto.Y - this.position.Y));
-            else if (this.position.Y - positionGoto.Y >= 1.0f) velocity.Y = Math.Max(-20.0f, -(this.position.Y - positionGoto.Y));
-            else velocity.Y = 0.0f;
-
-            if (positionGoto.X - this.position.X >= 1.0f) velocity.X = Math.Min(20.0f, (positionGoto.X - this.position.X));
-            else if (this.position.X - positionGoto.X >= 1.0f) velocity.X = Math.Max(-20.0f, -(this.position.X - positionGoto.X));
-            else velocity.X = 0.0f;
 
             ResolveCollision();
         }
@@ -95,5 +99,6 @@ namespace BEngine2D.Entity
         }
 
         public void MoveToPosition(System.Numerics.Vector2 position) => positionGoto = position;
+        public void MoveInDirection(System.Numerics.Vector2 direction) => velocity = direction;
     }
 }

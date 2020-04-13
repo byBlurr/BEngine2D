@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BGame.cs" />
+    <Compile Include="Characters\BMovementType.cs" />
     <Compile Include="Characters\BPlayer.cs" />
     <Compile Include="Input\BKeyboardListener.cs" />
     <Compile Include="Input\BMouseClickInfo.cs" />
