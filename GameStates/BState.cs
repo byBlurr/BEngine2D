@@ -26,9 +26,9 @@ namespace BEngine2D.GameStates
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
             GL.ClearColor(Color.Black);
-            BGraphics.Begin(Window.Window.Width, Window.Window.Height);
+            BGraphics.Begin(Window.GameWindow.Width, Window.GameWindow.Height);
             Draw();
-            Window.Window.SwapBuffers();
+            Window.GameWindow.SwapBuffers();
         }
 
         public virtual void Draw()
