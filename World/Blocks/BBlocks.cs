@@ -1,29 +1,40 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BEngine2D.Util;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BEngine2D.Util;
 
 namespace BEngine2D.World.Blocks
 {
     public class BBlocks
     {
-        public static BBlock[] Blocks;
-
+        private static BBlockTemplate[] Blocks;
         public static void Initialise()
         {
-            Blocks = new BBlock[]
-            {
-                new BBlock("OutsideBounds", BBlockType.Empty, new RectangleF(0, 0, AppInfo.TILESIZE, AppInfo.TILESIZE)),
-                new BBlock("Water", BBlockType.Solid, new RectangleF(0, 0, AppInfo.TILESIZE, AppInfo.TILESIZE)),
-                new BBlock("Grass", BBlockType.Ground, new RectangleF(AppInfo.TILESIZE, 0, AppInfo.TILESIZE, AppInfo.TILESIZE)),
-                new BBlock("Dirt", BBlockType.Ground, new RectangleF(AppInfo.TILESIZE * 2, 0, AppInfo.TILESIZE, AppInfo.TILESIZE)),
-                new BBlock("Sand", BBlockType.Ground, new RectangleF(AppInfo.TILESIZE * 3, 0, AppInfo.TILESIZE, AppInfo.TILESIZE)),
-                new BBlock("Stone", BBlockType.Ground, new RectangleF(AppInfo.TILESIZE * 4, 0, AppInfo.TILESIZE, AppInfo.TILESIZE)),
-            };
-
+            Blocks = new BBlockTemplate[255];
+            Blocks[0] = new BBlockTemplate("OutsideBounds", BBlockType.Empty, new RectangleF(0, 0, AppInfo.TILESIZE, AppInfo.TILESIZE));
         }
+
+        public static void AddBlock(int id, BBlockTemplate block)
+        {
+            Blocks[id] = block;
+        }
+
+        public static BBlockTemplate GetBlock(int id) => Blocks[id];
+    }
+
+    public class BBlockTemplate
+    {
+        private string name;
+        private BBlockType type;
+        private RectangleF texturePosition;
+
+        public BBlockTemplate(string name, BBlockType type, RectangleF texturePosition)
+        {
+            this.name = name;
+            this.type = type;
+            this.texturePosition = texturePosition;
+        }
+
+        public string Name { get => name; }
+        public BBlockType Type { get => type; }
+        public RectangleF TexturePosition { get => texturePosition; }
     }
 }

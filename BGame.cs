@@ -7,6 +7,7 @@ using OpenTK.Input;
 using System;
 using BEngine2D.Render;
 using System.Drawing;
+using BEngine2D.World.Blocks;
 
 namespace BEngine2D
 {
@@ -51,7 +52,7 @@ namespace BEngine2D
 
         public virtual void OnLoad()
         {
-
+            BBlocks.Initialise();
         }
 
         public virtual void Tick(double delta)
