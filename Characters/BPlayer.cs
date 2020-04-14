@@ -46,9 +46,15 @@ namespace BEngine2D.Characters
             this.movementType = movementType;
             this.size = new Vector2(32, 32);
             this.playerSprite = BContentPipe.LoadTexture("Characters/player.png");
+            this.state = BState.Idle;
 
+            InitialiseSprites();
+        }
+
+        public void InitialiseSprites()
+        {
             var spriteWidth = playerSprite.Width / 6f;
-            var spriteHeight = playerSprite.Height / 6f;
+            var spriteHeight = playerSprite.Height / 9f;
             idleSprites = new RectangleF[]
             {
                 new RectangleF(0, 0, spriteWidth, spriteHeight),
@@ -58,8 +64,80 @@ namespace BEngine2D.Characters
                 new RectangleF(spriteWidth * 4, 0, spriteWidth, spriteHeight),
                 new RectangleF(spriteWidth * 5, 0, spriteWidth, spriteHeight),
             };
+            uSprites = new RectangleF[]
+            {
+                new RectangleF(0, spriteHeight, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth, spriteHeight, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 2, spriteHeight, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 3, spriteHeight, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 4, spriteHeight, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 5, spriteHeight, spriteWidth, spriteHeight),
+            };
+            ruSprites = new RectangleF[]
+            {
+                new RectangleF(0, spriteHeight*2, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth, spriteHeight*2, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 2, spriteHeight*2, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 3, spriteHeight*2, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 4, spriteHeight*2, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 5, spriteHeight*2, spriteWidth, spriteHeight),
+            };
 
-            state = BState.Idle;
+            rSprites = new RectangleF[]
+            {
+                new RectangleF(0, spriteHeight*3, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth, spriteHeight*3, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 2, spriteHeight*3, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 3, spriteHeight*3, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 4, spriteHeight*3, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 5, spriteHeight*3, spriteWidth, spriteHeight),
+            };
+            rdSprites = new RectangleF[]
+            {
+                new RectangleF(0, spriteHeight*4, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth, spriteHeight*4, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 2, spriteHeight*4, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 3, spriteHeight*4, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 4, spriteHeight*4, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 5, spriteHeight*4, spriteWidth, spriteHeight),
+            };
+            dSprites = new RectangleF[]
+            {
+                new RectangleF(0, spriteHeight*5, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth, spriteHeight*5, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 2, spriteHeight*5, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 3, spriteHeight*5, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 4, spriteHeight*5, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 5, spriteHeight*5, spriteWidth, spriteHeight),
+            };
+            ldSprites = new RectangleF[]
+            {
+                new RectangleF(0, spriteHeight*6, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth, spriteHeight*6, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 2, spriteHeight*6, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 3, spriteHeight*6, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 4, spriteHeight*6, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 5, spriteHeight*6, spriteWidth, spriteHeight),
+            };
+            lSprites = new RectangleF[]
+            {
+                new RectangleF(0, spriteHeight*7, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth, spriteHeight*7, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 2, spriteHeight*7, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 3, spriteHeight*7, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 4, spriteHeight*7, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 5, spriteHeight*7, spriteWidth, spriteHeight),
+            };
+            luSprites = new RectangleF[]
+            {
+                new RectangleF(0, spriteHeight*8, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth, spriteHeight*8, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 2, spriteHeight*8, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 3, spriteHeight*8, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 4, spriteHeight*8, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 5, spriteHeight*8, spriteWidth, spriteHeight),
+            };
+
             spriteId = 0.0f;
             selectedSprite = idleSprites[0];
         }
@@ -88,6 +166,10 @@ namespace BEngine2D.Characters
                 else if (this.position.X - positionGoto.X >= 1.0f) velocity.X = Math.Max(-speed, -(this.position.X - positionGoto.X));
                 else velocity.X = 0.0f;
             }
+
+            if (velocity == Vector2.Zero) state = BState.Idle;
+            if (velocity.X > 0.0f) state = BState.MovingR;
+            if (velocity.X < 0.0f) state = BState.MovingL;
 
             this.position += (velocity * (float)delta);
         }
