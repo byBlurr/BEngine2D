@@ -27,6 +27,16 @@ namespace BEngine2D.Entities
         private int maxHealth;
         private int currentHealth;
 
+        public BCharacter(Vector2 position, BTexture spriteSheet) : base(position, spriteSheet)
+        {
+            movementType = BMovementType.MoveToPosition;
+            positionGoto = position;
+            velocity = Vector2.Zero;
+            currentState = BState.Idle;
+            maxMovementSpeed = 20.0f;
+            maxHealth = 200;
+            currentHealth = maxHealth;
+        }
         public BCharacter(Vector2 position, BTexture spriteSheet, RectangleF spriteBox) : base(position, spriteSheet, spriteBox)
         {
             movementType = BMovementType.MoveToPosition;
@@ -96,6 +106,9 @@ namespace BEngine2D.Entities
         {
             base.Draw();
         }
+
+        public void MoveToPosition(System.Numerics.Vector2 position) => positionGoto = position;
+        public void MoveInDirection(System.Numerics.Vector2 direction) => velocity = direction;
 
         // Getters
         protected BMovementType MovementType { get => movementType; }

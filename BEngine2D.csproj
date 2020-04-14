@@ -54,10 +54,10 @@
   <ItemGroup>
     <Compile Include="BGame.cs" />
     <Compile Include="Characters\BMovementType.cs" />
-    <Compile Include="Characters\BPlayer.cs" />
     <Compile Include="Characters\BState.cs" />
     <Compile Include="Entities\BCharacter.cs" />
     <Compile Include="Entities\BEntity.cs" />
+    <Compile Include="Entities\BPlayableCharacter.cs" />
     <Compile Include="Input\BKeyboardListener.cs" />
     <Compile Include="Input\BMouseClickInfo.cs" />
     <Compile Include="Input\BMouseListener.cs" />
