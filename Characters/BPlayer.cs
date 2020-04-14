@@ -13,7 +13,8 @@ namespace BEngine2D.Characters
         private Vector2 size;
 
         private BTexture2D playerSprite;
-        private RectangleF[] idleTextures, rightTextures, leftTextures, upTextures, downTextures;
+        private BState state;
+        private RectangleF[] idleSprites, rSprites, lSprites, uSprites, dSprites;
 
         public RectangleF ColRec
         {
@@ -41,17 +42,13 @@ namespace BEngine2D.Characters
             this.velocity = Vector2.Zero;
             this.speed = 20.0f;
             this.movementType = movementType;
-            facingRight = false;
-            facingLeft = false;
-            facingUp = false;
-            facingDown = false;
-            sprinting = false;
+            state = BState.Idle;
             this.size = new Vector2(32, 32);
             this.playerSprite = BContentPipe.LoadTexture("Characters/player.png");
 
             var spriteWidth = playerSprite.Width / 6f;
             var spriteHeight = playerSprite.Height / 6f;
-            idleTextures = new RectangleF[]
+            idleSprites = new RectangleF[]
             {
                 new RectangleF(0, 0, spriteWidth, spriteHeight),
                 new RectangleF(spriteWidth, 0, spriteWidth, spriteHeight),
@@ -98,7 +95,41 @@ namespace BEngine2D.Characters
         public void Draw()
         {
             // Todo: Add code to switch between idle and directional
-            RectangleF texture = idleTextures[Convert.ToInt32(Math.Floor(textureId))];
+            RectangleF texture;
+
+            switch (state)
+            {
+                case BState.Idle:
+                    texture = idleSprites[Convert.ToInt32(Math.Floor(textureId))];
+                    break;
+                case BState.MovingR:
+                    texture = rSprites[Convert.ToInt32(Math.Floor(textureId))];
+                    break;
+                case BState.MovingRU:
+                    texture = rSprites[Convert.ToInt32(Math.Floor(textureId))];
+                    break;
+                case BState.MovingRD:
+                    texture = rSprites[Convert.ToInt32(Math.Floor(textureId))];
+                    break;
+                case BState.MovingL:
+                    texture = lSprites[Convert.ToInt32(Math.Floor(textureId))];
+                    break;
+                case BState.MovingLU:
+                    texture = lSprites[Convert.ToInt32(Math.Floor(textureId))];
+                    break;
+                case BState.MovingLD:
+                    texture = lSprites[Convert.ToInt32(Math.Floor(textureId))];
+                    break;
+                case BState.MovingU:
+                    texture = uSprites[Convert.ToInt32(Math.Floor(textureId))];
+                    break;
+                case BState.MovingD:
+                    texture = dSprites[Convert.ToInt32(Math.Floor(textureId))];
+                    break;
+                default:
+                    texture = idleSprites[Convert.ToInt32(Math.Floor(textureId))];
+                    break;
+            }
             
             BGraphics.Draw(
                 playerSprite,
