@@ -7,7 +7,7 @@ namespace BEngine2D.Render
 {
     public class BContentPipe
     {
-        public static BTexture2D LoadTexture(string path)
+        public static BTexture LoadTexture(string path)
         {
             if (!File.Exists("Content/" + path)) throw new FileNotFoundException($"File not found at 'Content/{path}'.");
 
@@ -39,7 +39,7 @@ namespace BEngine2D.Render
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
 
-            return new BTexture2D(id, bmp.Width, bmp.Height);
+            return new BTexture(id, bmp.Width, bmp.Height);
         }
     }
 }

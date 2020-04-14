@@ -12,7 +12,7 @@ namespace BEngine2D.Render
 {
     public class BGraphics
     {
-        public static void Draw(BTexture2D texture, System.Numerics.Vector2 position, System.Numerics.Vector2 scale, Color color, System.Numerics.Vector2 origin, RectangleF? sourceRec = null)
+        public static void Draw(BTexture texture, System.Numerics.Vector2 position, System.Numerics.Vector2 scale, Color color, System.Numerics.Vector2 origin, RectangleF? sourceRec = null)
         {
             System.Numerics.Vector2[] vertices = new System.Numerics.Vector2[4]
             {

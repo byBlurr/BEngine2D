@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BEngine2D.Render
 {
-    public struct BTexture2D
+    public struct BTexture
     {
         private int id;
         private int width, height;
@@ -24,7 +24,7 @@ namespace BEngine2D.Render
             get { return height; }
         }
 
-        public BTexture2D(int id, int width, int height)
+        public BTexture(int id, int width, int height)
         {
             this.id = id;
             this.width = width;
