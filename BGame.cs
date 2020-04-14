@@ -1,13 +1,12 @@
 ﻿using BEngine2D.Input;
+using BEngine2D.Render;
 using BEngine2D.Util;
+using BEngine2D.World.Blocks;
 using OpenTK;
 using OpenTK.Graphics.OpenGL;
-using OpenTK.Graphics;
 using OpenTK.Input;
 using System;
-using BEngine2D.Render;
 using System.Drawing;
-using BEngine2D.World.Blocks;
 
 namespace BEngine2D
 {

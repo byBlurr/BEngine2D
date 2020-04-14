@@ -1,15 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OpenTK;
+﻿using BEngine2D.Util;
+using BEngine2D.World.Blocks;
+using System;
 using System.Drawing;
 using System.IO;
-using System.Numerics;
-using Newtonsoft.Json.Serialization;
-using BEngine2D.World.Blocks;
-using BEngine2D.Util;
 
 namespace BEngine2D.World
 {

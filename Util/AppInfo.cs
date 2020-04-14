@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace BEngine2D.Util
+﻿namespace BEngine2D.Util
 {
     public static class AppInfo
     {
