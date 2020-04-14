@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BEngine2D.Characters
+namespace BEngine2D.Entities
 {
-    public enum BState
+    public enum BEntityState
     {
         Idle,
         Moving,

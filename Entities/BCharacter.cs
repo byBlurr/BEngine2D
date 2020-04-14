@@ -1,12 +1,7 @@
-﻿using BEngine2D.Characters;
-using BEngine2D.Render;
+﻿using BEngine2D.Render;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BEngine2D.Entities
 {
@@ -20,7 +15,7 @@ namespace BEngine2D.Entities
         public Vector2 positionGoto, velocity;
 
         // States
-        private BState currentState;
+        private BEntityState currentState;
 
         // Statistics
         private float maxMovementSpeed;
@@ -32,7 +27,7 @@ namespace BEngine2D.Entities
             movementType = BMovementType.MoveToPosition;
             positionGoto = position;
             velocity = Vector2.Zero;
-            currentState = BState.Idle;
+            currentState = BEntityState.Idle;
             maxMovementSpeed = 20.0f;
             maxHealth = 200;
             currentHealth = maxHealth;
@@ -42,7 +37,7 @@ namespace BEngine2D.Entities
             movementType = BMovementType.MoveToPosition;
             positionGoto = position;
             velocity = Vector2.Zero;
-            currentState = BState.Idle;
+            currentState = BEntityState.Idle;
             maxMovementSpeed = 20.0f;
             maxHealth = 200;
             currentHealth = maxHealth;
@@ -52,7 +47,7 @@ namespace BEngine2D.Entities
             this.movementType = movementType;
             positionGoto = position;
             velocity = Vector2.Zero;
-            currentState = BState.Idle;
+            currentState = BEntityState.Idle;
             maxMovementSpeed = 20.0f;
             maxHealth = 200;
             currentHealth = maxHealth;
@@ -65,7 +60,7 @@ namespace BEngine2D.Entities
 
             positionGoto = position;
             velocity = Vector2.Zero;
-            currentState = BState.Idle;
+            currentState = BEntityState.Idle;
             currentHealth = maxHealth;
         }
 
@@ -90,9 +85,9 @@ namespace BEngine2D.Entities
                 else velocity.X = 0.0f;
             }
 
-            if (velocity == Vector2.Zero) currentState = BState.Idle;
-            if (velocity.X > 0.00f) currentState = BState.MovingR;
-            if (velocity.X < 0.00f) currentState = BState.MovingL;
+            if (velocity == Vector2.Zero) currentState = BEntityState.Idle;
+            if (velocity.X > 0.00f) currentState = BEntityState.MovingR;
+            if (velocity.X < 0.00f) currentState = BEntityState.MovingL;
 
             this.position += (velocity * (float)delta);
         }
@@ -112,7 +107,7 @@ namespace BEngine2D.Entities
 
         // Getters
         protected BMovementType MovementType { get => movementType; }
-        protected BState CurrentState { get => currentState; }
+        protected BEntityState CurrentState { get => currentState; }
         protected float MaxMovementSpeed { get => maxMovementSpeed; }
         protected int MaxHealth { get => maxHealth; }
         protected int CurrentHealth { get => currentHealth; }
