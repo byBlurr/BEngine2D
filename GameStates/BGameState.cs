@@ -23,6 +23,7 @@ namespace BEngine2D.GameStates
         public override void Draw()
         {
             Camera.ApplyTransform();
+            // draw the mouse icon
             base.Draw();
         }
     }

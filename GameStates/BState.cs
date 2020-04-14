@@ -45,6 +45,7 @@ namespace BEngine2D.GameStates
             Window.KeyUp += (object sender, KeyboardKeyEventArgs e) => BKeyboardListener.UpdateKey((BKey)e.Key, false);
             Window.MouseDown += (object sender, MouseButtonEventArgs e) => BMouseListener.UpdateButton((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y), true);
             Window.MouseUp += (object sender, MouseButtonEventArgs e) => BMouseListener.UpdateButton((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y), false);
+            Window.MouseMove += (object sender, MouseMoveEventArgs e) => BMouseListener.UpdateLocation(e.Position);
             //TODO: Window.MouseWheel
 
             // Run the window
@@ -70,6 +71,11 @@ namespace BEngine2D.GameStates
 
         public virtual void Draw()
         {
+        }
+
+        public void DisplayMouseCursor(bool display)
+        {
+            Window.CursorVisible = display;
         }
     }
 }

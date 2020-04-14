@@ -1,15 +1,27 @@
-﻿using System.Numerics;
+﻿using System.Drawing;
+using System.Numerics;
 
 namespace BEngine2D.Input
 {
     public class BMouseListener
     {
         private static BMouseClickInfo[] ButtonStates;
+        private static Vector2 MouseLocation;
 
         public static void Initialize()
         {
             ButtonStates = new BMouseClickInfo[15];
             for (int i = 0; i < ButtonStates.Length; i++) ButtonStates[i] = new BMouseClickInfo();
+
+            MouseLocation = Vector2.Zero;
+        }
+
+        public static Vector2 GetLocation() => MouseLocation;
+
+        public static void UpdateLocation(Point location)
+        {
+            if (location.IsEmpty) return;
+            MouseLocation = new Vector2(location.X, location.Y);
         }
 
         public static BMouseClickInfo GetButtonState(BMouseButton button) => ButtonStates[(int)button];
