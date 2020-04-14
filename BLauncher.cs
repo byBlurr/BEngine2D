@@ -3,21 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 
 namespace BEngine2D
 {
     public class BLauncher
     {
-        private BGame startState;
-
         public BLauncher(BGame startState)
         {
-            this.startState = startState;
-        }
-
-        public void LaunchGame()
-        {
-            startState.Launch();
+            Application.EnableVisualStyles();
+            Application.SetCompatibleTextRenderingDefault(false);
+            Application.Run(new BLaunchWindow(startState));
         }
     }
 }

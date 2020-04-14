@@ -3,6 +3,7 @@
     public class AppSettings
     {
         // Player Editable
+        public static bool SETTING_CLOSEONLAUNCH = false;
         public static bool SETTING_FULLSCREEN = false;
         public static bool SETTING_VSYNC = false;
         public static float SETTING_FPS = 144.0f;

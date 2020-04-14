@@ -22,10 +22,13 @@ namespace BEngine2D
             Window = new GameWindow(AppSettings.SETTING_WIDTH, AppSettings.SETTING_HEIGHT);
             Window.Title = AppInfo.APP_TITLE;
 
-            if (AppSettings.SETTING_VSYNC) Window.VSync = VSyncMode.Adaptive;
-            else Window.VSync = VSyncMode.Off;
+            if (AppSettings.SETTING_FULLSCREEN)
+            {
+                Window.WindowState = WindowState.Fullscreen;
 
-            if (AppSettings.SETTING_FULLSCREEN) Window.WindowState = WindowState.Fullscreen;
+                if (AppSettings.SETTING_VSYNC) Window.VSync = VSyncMode.Adaptive;
+                else Window.VSync = VSyncMode.Off;
+            }
             else Window.WindowState = WindowState.Normal;
 
             // Graphics Stuff
