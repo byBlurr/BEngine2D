@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace BEngine2D.Entities
 {
+    /// <summary>
+    /// A static entity. Has no movement, AI or health.
+    /// </summary>
     public class BEntity
     {
         public Vector2 position;
