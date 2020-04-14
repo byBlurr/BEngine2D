@@ -61,6 +61,7 @@
     <Compile Include="BLaunchWindow.Designer.cs">
       <DependentUpon>BLaunchWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="BState.cs" />
     <Compile Include="Entities\BCharacter.cs" />
     <Compile Include="Entities\BEntity.cs" />
     <Compile Include="Entities\BEntityState.cs" />

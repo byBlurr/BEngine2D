@@ -4,7 +4,7 @@ namespace BEngine2D
 {
     public class BLauncher
     {
-        public BLauncher(BGame startState)
+        public BLauncher(BState startState)
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);

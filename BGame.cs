@@ -1,85 +1,29 @@
-﻿using BEngine2D.Input;
-using BEngine2D.Render;
-using BEngine2D.Util;
+﻿using BEngine2D.Render;
 using BEngine2D.World.Blocks;
-using OpenTK;
-using OpenTK.Graphics.OpenGL;
-using OpenTK.Input;
-using System;
-using System.Drawing;
 
 namespace BEngine2D
 {
-    public class BGame
+    public class BGame : BState
     {
-        protected GameWindow Window;
         protected BView Camera;
 
-        public void Launch()
+        public override void OnLoad()
         {
-            // Setup window
-            Window = new GameWindow(AppSettings.SETTING_WIDTH, AppSettings.SETTING_HEIGHT);
-            Window.Title = AppInfo.APP_TITLE;
-
-            if (AppSettings.SETTING_FULLSCREEN)
-            {
-                Window.WindowState = WindowState.Fullscreen;
-
-                if (AppSettings.SETTING_VSYNC) Window.VSync = VSyncMode.Adaptive;
-                else Window.VSync = VSyncMode.Off;
-            }
-            else Window.WindowState = WindowState.Normal;
-
-            // Graphics Stuff
-            GL.Enable(EnableCap.Texture2D);
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
+            base.OnLoad();
             Camera = new BView(System.Numerics.Vector2.Zero, 1.0, 0.0);
-
-            // Frames
-            Window.Load += (object obj, EventArgs e) => { OnLoad(); };
-            Window.UpdateFrame += (object obj, FrameEventArgs args) => { Tick(args.Time); };
-            Window.RenderFrame += (object obj, FrameEventArgs args) => { Render(); };
-
-            // Input
-            BKeyboardListener.Initialize();
-            BMouseListener.Initialize();
-            Window.KeyDown += (object sender, KeyboardKeyEventArgs e) => BKeyboardListener.UpdateKey((BKey)e.Key, true);
-            Window.KeyUp += (object sender, KeyboardKeyEventArgs e) => BKeyboardListener.UpdateKey((BKey)e.Key, false);
-            Window.MouseDown += (object sender, MouseButtonEventArgs e) => BMouseListener.UpdateButton((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y), true);
-            Window.MouseUp += (object sender, MouseButtonEventArgs e) => BMouseListener.UpdateButton((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y), false);
-            //TODO: Window.MouseWheel
-
-            // Run the window
-            Window.Run(AppSettings.SETTING_UPS, AppSettings.SETTING_FPS);
-        }
-
-        public virtual void OnLoad()
-        {
             BBlocks.Initialise();
         }
 
-        public virtual void Tick(double delta)
+        public override void Tick(double delta)
         {
+            base.Tick(delta);
             Camera.Update();
         }
 
-        public void Render()
+        public override void Draw()
         {
-            GL.Clear(ClearBufferMask.ColorBufferBit);
-            GL.ClearColor(Color.Green);
-
-            BGraphics.Begin(Window.Width, Window.Height);
             Camera.ApplyTransform();
-
-            Draw();
-
-            Window.SwapBuffers();
-        }
-
-        public virtual void Draw()
-        {
-
+            base.Draw();
         }
     }
 }
