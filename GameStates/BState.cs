@@ -7,7 +7,7 @@ using OpenTK.Input;
 using System;
 using System.Drawing;
 
-namespace BEngine2D
+namespace BEngine2D.GameStates
 {
     public class BState
     {

@@ -53,7 +53,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BGame.cs" />
     <Compile Include="BLauncher.cs" />
     <Compile Include="BLaunchWindow.cs">
       <SubType>Form</SubType>
@@ -61,12 +60,13 @@
     <Compile Include="BLaunchWindow.Designer.cs">
       <DependentUpon>BLaunchWindow.cs</DependentUpon>
     </Compile>
-    <Compile Include="BState.cs" />
     <Compile Include="Entities\BCharacter.cs" />
     <Compile Include="Entities\BEntity.cs" />
     <Compile Include="Entities\BEntityState.cs" />
     <Compile Include="Entities\BMovementType.cs" />
     <Compile Include="Entities\BPlayableCharacter.cs" />
+    <Compile Include="GameStates\BGameState.cs" />
+    <Compile Include="GameStates\BState.cs" />
     <Compile Include="Input\BKeyboardListener.cs" />
     <Compile Include="Input\BMouseClickInfo.cs" />
     <Compile Include="Input\BMouseListener.cs" />

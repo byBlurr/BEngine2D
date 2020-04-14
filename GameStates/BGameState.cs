@@ -1,9 +1,9 @@
 ﻿using BEngine2D.Render;
 using BEngine2D.World.Blocks;
 
-namespace BEngine2D
+namespace BEngine2D.GameStates
 {
-    public class BGame : BState
+    public class BGameState : BState
     {
         protected BView Camera;
 
