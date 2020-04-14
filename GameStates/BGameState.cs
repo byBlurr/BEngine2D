@@ -21,6 +21,9 @@ namespace BEngine2D.GameStates
             InitialiseLevel();
         }
 
+        /// <summary>
+        /// Initialise Textures, Blocks and Level
+        /// </summary>
         public virtual void InitialiseLevel()
         {
 
