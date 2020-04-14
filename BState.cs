@@ -62,7 +62,7 @@ namespace BEngine2D
         public void Render()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            GL.ClearColor(Color.Green);
+            GL.ClearColor(Color.Black);
             BGraphics.Begin(Window.Width, Window.Height);
             Draw();
             Window.SwapBuffers();
