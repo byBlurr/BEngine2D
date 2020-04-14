@@ -5,12 +5,12 @@ namespace BEngine2D.GameStates
 {
     public class BGameState : BState
     {
-        protected BView Camera;
+        protected BCamera Camera;
 
         public override void OnLoad()
         {
             base.OnLoad();
-            Camera = new BView(System.Numerics.Vector2.Zero, 1.0, 0.0);
+            Camera = new BCamera(System.Numerics.Vector2.Zero, 1.0, 0.0);
             BBlocks.Initialise();
         }
 

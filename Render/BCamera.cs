@@ -13,7 +13,7 @@ namespace BEngine2D.Render
         QuarticOut,
     }
 
-    public class BView
+    public class BCamera
     {
         private System.Numerics.Vector2 Position { get; set; }
 
@@ -30,7 +30,7 @@ namespace BEngine2D.Render
 
 
 
-        public BView(System.Numerics.Vector2 startPosition, double startZoom = 1.0, double startRotation = 1.0)
+        public BCamera(System.Numerics.Vector2 startPosition, double startZoom = 1.0, double startRotation = 1.0)
         {
             Position = startPosition;
             Zoom = startZoom;
