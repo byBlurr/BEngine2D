@@ -92,19 +92,24 @@ namespace BEngine2D.Characters
 
         }
         
+        float textureId = 0.0f;
         public void Draw()
         {
-            RectangleF texture = idleTextures[0];
-
+            // Todo: Add code to switch between idle and directional
+            RectangleF texture = idleTextures[Convert.ToInt32(Math.Floor(textureId))];
+            
             BGraphics.Draw(
                 playerSprite,
                 this.position,
                 new Vector2(DrawRec.Width / playerSprite.Width *2, DrawRec.Height / playerSprite.Height *2),
                 Color.Transparent,
                 new Vector2(DrawRec.Width / 2f, (DrawRec.Height / 4)*3),
-                //new RectangleF(0, 0, playerSprite.Width / 6f, playerSprite.Height / 6f)
                 texture
             );
+
+            textureId += (float)velocity.X / 30f;
+            if (textureId > 5.0f) textureId = 0f;
+            if (textureId < 0.0f) textureId = 0f;
         }
 
         public void MoveToPosition(System.Numerics.Vector2 position) => positionGoto = position;
