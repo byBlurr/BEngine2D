@@ -1,25 +1,20 @@
-﻿using BEngine2D.Input;
-using BEngine2D.Render;
-using BEngine2D.Util;
+﻿using BEngine2D.Render;
 using System;
-using System.Collections.Generic;
 using System.Drawing;
-using System.Linq;
 using System.Numerics;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BEngine2D.Characters
 {
     public class BPlayer
     {
+        private BMovementType movementType;
         public Vector2 position, positionGoto, velocity;
         private float speed;
         private Vector2 size;
 
         private BTexture2D playerSprite;
         private bool facingRight, facingLeft, facingUp, facingDown, sprinting;
-        private BMovementType movementType;
+        private RectangleF[] idleTextures, rightTextures, leftTextures, upTextures, downTextures;
 
         public RectangleF ColRec
         {
@@ -54,6 +49,18 @@ namespace BEngine2D.Characters
             sprinting = false;
             this.size = new Vector2(32, 32);
             this.playerSprite = BContentPipe.LoadTexture("Characters/player.png");
+
+            var spriteWidth = playerSprite.Width / 6f;
+            var spriteHeight = playerSprite.Height / 6f;
+            idleTextures = new RectangleF[]
+            {
+                new RectangleF(0, 0, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth, 0, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 2, 0, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 3, 0, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 4, 0, spriteWidth, spriteHeight),
+                new RectangleF(spriteWidth * 5, 0, spriteWidth, spriteHeight),
+            };
         }
 
         public void Update(double delta)
@@ -87,15 +94,7 @@ namespace BEngine2D.Characters
         
         public void Draw()
         {
-            /*/ Draw the player!!
-            BGraphics.Draw(
-                playerSprite,
-                this.position,
-                new Vector2(DrawRec.Width / playerSprite.Width, DrawRec.Height / playerSprite.Height),
-                Color.Transparent,
-                new Vector2(playerSprite.Width / 4f, playerSprite.Height / 2f),
-                new RectangleF(0, 0, playerSprite.Width / 6f, playerSprite.Height / 6f)
-            );*/
+            RectangleF texture = idleTextures[0];
 
             BGraphics.Draw(
                 playerSprite,
@@ -103,7 +102,8 @@ namespace BEngine2D.Characters
                 new Vector2(DrawRec.Width / playerSprite.Width *2, DrawRec.Height / playerSprite.Height *2),
                 Color.Transparent,
                 new Vector2(DrawRec.Width / 2f, (DrawRec.Height / 4)*3),
-                new RectangleF(0, 0, playerSprite.Width / 6f, playerSprite.Height / 6f)
+                //new RectangleF(0, 0, playerSprite.Width / 6f, playerSprite.Height / 6f)
+                texture
             );
         }
 
