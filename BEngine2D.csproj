@@ -61,7 +61,6 @@
     <Compile Include="Input\BKeyboardListener.cs" />
     <Compile Include="Input\BMouseClickInfo.cs" />
     <Compile Include="Input\BMouseListener.cs" />
-    <Compile Include="Input\Enums.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Render\BGraphics.cs" />
     <Compile Include="Render\BTexture2D.cs" />
