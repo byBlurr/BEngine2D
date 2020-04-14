@@ -18,6 +18,12 @@ namespace BEngine2D.GameStates
             base.OnLoad();
             Camera = new BCamera(System.Numerics.Vector2.Zero, 1.0, 0.0);
             BBlocks.Initialise();
+            InitialiseLevel();
+        }
+
+        public virtual void InitialiseLevel()
+        {
+
         }
 
         public override void Tick(double delta)
