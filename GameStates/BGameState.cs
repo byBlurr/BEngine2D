@@ -7,7 +7,7 @@ using System.Numerics;
 
 namespace BEngine2D.GameStates
 {
-    public class BGameState : BState
+    public abstract class BGameState : BState
     {
         protected BLevel Level;
         protected BCamera Camera;

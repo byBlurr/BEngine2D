@@ -57,6 +57,13 @@ namespace BEngine2D
             // Run the window
             Window.Run(AppSettings.SETTING_UPS, AppSettings.SETTING_FPS);
         }
+
+        public void SwitchState(BState newState)
+        {
+            CurrentState = newState;
+            CurrentState.OnLoad(this);
+        }
+
         private void OnLoad()
         {
             CurrentState.OnLoad(this);
