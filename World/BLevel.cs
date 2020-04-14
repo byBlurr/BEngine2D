@@ -66,11 +66,11 @@ namespace BEngine2D.World
                 {
                     if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
                     {
-                        grid[x, y] = new BBlock("Tree", BBlockType.Solid, x, y);
+                        grid[x, y] = new BBlock(BBlocks.Blocks[1].Name, BBlocks.Blocks[1].Type, BBlocks.Blocks[1].TexturePosition, x, y);
                     }
                     else
                     {
-                        grid[x, y] = new BBlock("Grass", BBlockType.Ground, x, y);
+                        grid[x, y] = new BBlock(BBlocks.Blocks[2].Name, BBlocks.Blocks[2].Type, BBlocks.Blocks[2].TexturePosition, x, y);
                     }
                 }
             }
@@ -94,7 +94,7 @@ namespace BEngine2D.World
                 int y = 0;
                 for (int i = 0; i < Tiles.Length; i++)
                 {
-                    grid[x, y] = new BBlock(BBlocks.Blocks[Tiles[i]].Name, BBlocks.Blocks[Tiles[i]].Type, x, y);
+                    grid[x, y] = new BBlock(BBlocks.Blocks[Tiles[i]].Name, BBlocks.Blocks[Tiles[i]].Type, BBlocks.Blocks[Tiles[i]].TexturePosition, x, y);
 
                     x++;
                     if (x >= width)
@@ -122,11 +122,11 @@ namespace BEngine2D.World
                     {
                         if (x == 0 || y == 0 || x == width - 1 || y == height - 1)
                         {
-                            grid[x, y] = new BBlock("Tree", BBlockType.Solid, x, y);
+                            grid[x, y] = new BBlock(BBlocks.Blocks[1].Name, BBlocks.Blocks[1].Type, BBlocks.Blocks[1].TexturePosition, x, y);
                         }
                         else
                         {
-                            grid[x, y] = new BBlock("Grass", BBlockType.Ground, x, y);
+                            grid[x, y] = new BBlock(BBlocks.Blocks[2].Name, BBlocks.Blocks[2].Type, BBlocks.Blocks[2].TexturePosition, x, y);
                         }
                     }
                 }

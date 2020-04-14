@@ -1,5 +1,7 @@
-﻿using System;
+﻿using BEngine2D.Util;
+using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +14,7 @@ namespace BEngine2D.World.Blocks
         private BBlockType type;
         private int posX, posY;
         private bool solid, ground;
+        private RectangleF texturePosition;
 
         public string Name
         {
@@ -25,6 +28,13 @@ namespace BEngine2D.World.Blocks
             get
             {
                 return type;
+            }
+        }
+        public RectangleF TexturePosition
+        {
+            get
+            {
+                return texturePosition;
             }
         }
         public int PosX
@@ -56,10 +66,11 @@ namespace BEngine2D.World.Blocks
             }
         }
 
-        public BBlock(string name, BBlockType type, int x, int y)
+        public BBlock(string name, BBlockType type, RectangleF texturePosition, int x, int y)
         {
             this.name = name;
             this.type = type;
+            this.texturePosition = texturePosition;
             posX = x;
             posY = y;
 
@@ -84,10 +95,11 @@ namespace BEngine2D.World.Blocks
             }
         }
 
-        public BBlock(string name, BBlockType type)
+        public BBlock(string name, BBlockType type, RectangleF texturePosition)
         {
             this.name = name;
             this.type = type;
+            this.texturePosition = texturePosition;
             posX = 0;
             posY = 0;
 
