@@ -52,7 +52,7 @@ namespace BEngine2D.Characters
             facingUp = false;
             facingDown = false;
             sprinting = false;
-            this.size = new Vector2(20, 40);
+            this.size = new Vector2(32, 32);
             this.playerSprite = BContentPipe.LoadTexture("Characters/player.png");
         }
 
@@ -87,14 +87,23 @@ namespace BEngine2D.Characters
         
         public void Draw()
         {
-            // Draw the player!!
+            /*/ Draw the player!!
             BGraphics.Draw(
-                playerSprite, 
-                this.position, 
-                new Vector2(DrawRec.Width / playerSprite.Width, DrawRec.Height / playerSprite.Height), 
+                playerSprite,
+                this.position,
+                new Vector2(DrawRec.Width / playerSprite.Width, DrawRec.Height / playerSprite.Height),
                 Color.Transparent,
                 new Vector2(playerSprite.Width / 4f, playerSprite.Height / 2f),
-                new RectangleF(0, 0, playerSprite.Width / 5f, playerSprite.Height/2)
+                new RectangleF(0, 0, playerSprite.Width / 6f, playerSprite.Height / 6f)
+            );*/
+
+            BGraphics.Draw(
+                playerSprite,
+                this.position,
+                new Vector2(DrawRec.Width / playerSprite.Width *2, DrawRec.Height / playerSprite.Height *2),
+                Color.Transparent,
+                new Vector2(DrawRec.Width / 2f, (DrawRec.Height / 4)*3),
+                new RectangleF(0, 0, playerSprite.Width / 6f, playerSprite.Height / 6f)
             );
         }
 
