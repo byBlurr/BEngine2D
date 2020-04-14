@@ -16,7 +16,7 @@ namespace BEngine2D
         protected GameWindow Window;
         protected BView Camera;
 
-        public BGame()
+        public void Launch()
         {
             // Setup window
             Window = new GameWindow(AppSettings.SETTING_WIDTH, AppSettings.SETTING_HEIGHT);

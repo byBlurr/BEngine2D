@@ -53,6 +53,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BGame.cs" />
+    <Compile Include="BLauncher.cs" />
     <Compile Include="Entities\BCharacter.cs" />
     <Compile Include="Entities\BEntity.cs" />
     <Compile Include="Entities\BEntityState.cs" />
