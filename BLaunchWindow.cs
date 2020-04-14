@@ -17,13 +17,13 @@ namespace BEngine2D
     {
         private string SETTINGS_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), "BEngine2D/Settings");
         private LaunchSettings settings;
-        private BState game;
+        private BState startState;
         private bool close = false;
 
-        public BLaunchWindow(BState game)
+        public BLaunchWindow(BState startState)
         {
             InitializeComponent();
-            this.game = game;
+            this.startState = startState;
 
             if (!Directory.Exists(SETTINGS_PATH)) Directory.CreateDirectory(SETTINGS_PATH);
 
@@ -60,7 +60,9 @@ namespace BEngine2D
         {
             if (this.close) this.Close();
             else this.LaunchButton.Enabled = false;
-            game.Launch();
+
+            BWindow window = new BWindow();
+            window.Launch(startState);
         }
 
         private void SaveSettings(object sender, EventArgs e)

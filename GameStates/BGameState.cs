@@ -13,10 +13,10 @@ namespace BEngine2D.GameStates
         protected BCamera Camera;
         protected BTexture[] Textures = new BTexture[255];
 
-        public override void OnLoad()
+        public override void OnLoad(BWindow Window)
         {
-            base.OnLoad();
-            Camera = new BCamera(System.Numerics.Vector2.Zero, 1.0, 0.0);
+            base.OnLoad(Window);
+            Camera = new BCamera(Vector2.Zero, 1.0, 0.0);
             BBlocks.Initialise();
             InitialiseLevel();
         }
