@@ -158,12 +158,12 @@ namespace BEngine2D.Characters
         {
             if (movementType == BMovementType.MoveToPosition)
             {
-                if (positionGoto.Y - this.position.Y >= 1.0f) velocity.Y = Math.Min(speed, (positionGoto.Y - this.position.Y));
-                else if (this.position.Y - positionGoto.Y >= 1.0f) velocity.Y = Math.Max(-speed, -(this.position.Y - positionGoto.Y));
+                if (positionGoto.Y - this.position.Y >= 0.1f) velocity.Y = Math.Min(speed, (positionGoto.Y - this.position.Y));
+                else if (this.position.Y - positionGoto.Y >= 0.1f) velocity.Y = Math.Max(-speed, -(this.position.Y - positionGoto.Y));
                 else velocity.Y = 0.0f;
 
-                if (positionGoto.X - this.position.X >= 1.0f) velocity.X = Math.Min(speed, (positionGoto.X - this.position.X));
-                else if (this.position.X - positionGoto.X >= 1.0f) velocity.X = Math.Max(-speed, -(this.position.X - positionGoto.X));
+                if (positionGoto.X - this.position.X >= 0.1f) velocity.X = Math.Min(speed, (positionGoto.X - this.position.X));
+                else if (this.position.X - positionGoto.X >= 0.1f) velocity.X = Math.Max(-speed, -(this.position.X - positionGoto.X));
                 else velocity.X = 0.0f;
             }
 
@@ -221,16 +221,21 @@ namespace BEngine2D.Characters
             BGraphics.Draw(
                 playerSprite,
                 this.position,
-                new Vector2(DrawRec.Width / playerSprite.Width *2, DrawRec.Height / playerSprite.Height *2),
+                //new Vector2(DrawRec.Width / playerSprite.Width *2, DrawRec.Height / playerSprite.Height *2),
+                new Vector2(DrawRec.Width / 100f, DrawRec.Height / 100f),
                 Color.Transparent,
-                new Vector2(DrawRec.Width / 2f, (DrawRec.Height / 4)*3),
+                //new Vector2(DrawRec.Width / 2f, (DrawRec.Height / 4)*3),
+                new Vector2(DrawRec.Width * 0.75f, DrawRec.Height * 1.75f),
                 selectedSprite
             );
 
-            if (velocity.X > 0.0f) spriteId += (float)velocity.X / 30f;
-            else if (velocity.X < 0.0f) spriteId += -((float)velocity.X) / 30f;
+            if (state != BState.Idle)
+            {
+                if (velocity.X > 0.0f) spriteId += (float)velocity.X / 30f;
+                else if (velocity.X < 0.0f) spriteId += -((float)velocity.X) / 30f;
 
-            if (spriteId > 5.0f || spriteId < 0.0f) spriteId = 0f;
+                if (spriteId > 5.0f || spriteId < 0.0f) spriteId = 0f;
+            }
         }
 
         public void MoveToPosition(System.Numerics.Vector2 position) => positionGoto = position;
