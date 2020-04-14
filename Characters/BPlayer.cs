@@ -13,7 +13,6 @@ namespace BEngine2D.Characters
         private Vector2 size;
 
         private BTexture2D playerSprite;
-        private bool facingRight, facingLeft, facingUp, facingDown, sprinting;
         private RectangleF[] idleTextures, rightTextures, leftTextures, upTextures, downTextures;
 
         public RectangleF ColRec
@@ -66,7 +65,16 @@ namespace BEngine2D.Characters
         public void Update(double delta)
         {
             HandleInput();
+            HandleMovement();
+            ResolveCollision();
+        }
 
+        public void HandleInput()
+        {
+        }
+
+        public void HandleMovement()
+        {
             if (movementType == BMovementType.MoveToPosition)
             {
                 if (positionGoto.Y - this.position.Y >= 1.0f) velocity.Y = Math.Min(speed, (positionGoto.Y - this.position.Y));
@@ -79,12 +87,6 @@ namespace BEngine2D.Characters
             }
 
             this.position += (velocity * (float)delta);
-
-            ResolveCollision();
-        }
-
-        public void HandleInput()
-        {
         }
 
         public void ResolveCollision()
