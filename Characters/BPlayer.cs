@@ -168,8 +168,8 @@ namespace BEngine2D.Characters
             }
 
             if (velocity == Vector2.Zero) state = BState.Idle;
-            if (velocity.X > 0.0f) state = BState.MovingR;
-            if (velocity.X < 0.0f) state = BState.MovingL;
+            if (velocity.X > 0.00f) state = BState.MovingR;
+            if (velocity.X < 0.00f) state = BState.MovingL;
 
             this.position += (velocity * (float)delta);
         }
@@ -227,9 +227,10 @@ namespace BEngine2D.Characters
                 selectedSprite
             );
 
-            spriteId += (float)velocity.X / 30f;
-            if (spriteId > 5.0f) spriteId = 0f;
-            if (spriteId < 0.0f) spriteId = 0f;
+            if (velocity.X > 0.0f) spriteId += (float)velocity.X / 30f;
+            else if (velocity.X < 0.0f) spriteId += -((float)velocity.X) / 30f;
+
+            if (spriteId > 5.0f || spriteId < 0.0f) spriteId = 0f;
         }
 
         public void MoveToPosition(System.Numerics.Vector2 position) => positionGoto = position;
