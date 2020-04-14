@@ -2,7 +2,14 @@
 {
     public class AppSettings
     {
-        // Window Settings
-        public static bool WINDOW_FULLSCREEN = false;
+        // Player Editable
+        public static bool SETTING_FULLSCREEN = false;
+        public static bool SETTING_VSYNC = false;
+        public static float SETTING_FPS = 144.0f;
+        public static int SETTING_WIDTH = 1280;
+        public static int SETTING_HEIGHT = 720;
+
+        // Developer Editable
+        public static float SETTING_UPS = 30.0f;
     }
 }

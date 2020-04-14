@@ -16,15 +16,17 @@ namespace BEngine2D
         protected GameWindow Window;
         protected BView Camera;
 
-        protected int Width, Height;
-
-        public BGame(string title, double fps, double ups, int width = 1280, int height = 720)
+        public BGame()
         {
             // Setup window
-            Window = new GameWindow(width, height);
-            Window.Title = title + " - BEngine2D";
-            Width = Window.Width;
-            Height = Window.Height;
+            Window = new GameWindow(AppSettings.SETTING_WIDTH, AppSettings.SETTING_HEIGHT);
+            Window.Title = AppInfo.APP_TITLE;
+
+            if (AppSettings.SETTING_VSYNC) Window.VSync = VSyncMode.Adaptive;
+            else Window.VSync = VSyncMode.Off;
+
+            if (AppSettings.SETTING_FULLSCREEN) Window.WindowState = WindowState.Fullscreen;
+            else Window.WindowState = WindowState.Normal;
 
             // Graphics Stuff
             GL.Enable(EnableCap.Texture2D);
@@ -47,7 +49,7 @@ namespace BEngine2D
             //TODO: Window.MouseWheel
 
             // Run the window
-            Window.Run(ups, fps);
+            Window.Run(AppSettings.SETTING_UPS, AppSettings.SETTING_FPS);
         }
 
         public virtual void OnLoad()
