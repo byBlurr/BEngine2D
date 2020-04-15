@@ -69,10 +69,10 @@ namespace BEngine2D.Entities
         {
             BGraphics.Draw(
                 spritesheet,
-                this.position,
-                new Vector2(DrawBox.Width / 100f, DrawBox.Height / 100f),
+                this.position - (new Vector2(DrawBox.Width, DrawBox.Height) / 2f),
+                new Vector2((DrawBox.Width / currentSprite.Width), (DrawBox.Height / currentSprite.Height)),
                 Color.Transparent,
-                new Vector2(DrawBox.Width * 0.75f, DrawBox.Height * 1.75f),
+                Vector2.Zero,
                 currentSprite
             );
         }
