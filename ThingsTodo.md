@@ -1,14 +1,11 @@
 ## Todo list in order...
-### BEntities
-- Initialise all entities
-
 ### BCharacter Collision
 - All classes derived from BCharacter should have this
 
 ### BGameSave
 - Save entities
 - Load entities
-- Add json constructures to BEntity, BCharacter and BPlayableCharacter
+- This is going to be complicated, not sure what the best way to do this is. Json? but then wont all entities need json constructors? Does that make it less user friendly to other developers using the engine?
 
 ### BExampleGame
 - BExampleGame needs to be fully updated
