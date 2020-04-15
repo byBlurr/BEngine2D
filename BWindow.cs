@@ -50,7 +50,7 @@ namespace BEngine2D
             GameWindow.MouseDown += (object sender, MouseButtonEventArgs e) => BMouseListener.UpdateButton((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y), true);
             GameWindow.MouseUp += (object sender, MouseButtonEventArgs e) => BMouseListener.UpdateButton((BMouseButton)e.Button, new System.Numerics.Vector2(e.X, e.Y), false);
             GameWindow.MouseMove += (object sender, MouseMoveEventArgs e) => BMouseListener.UpdateLocation(e.Position);
-
+            GameWindow.MouseWheel += (object sender, MouseWheelEventArgs e) => { BMouseListener.UpdateScrollWheel(e.Delta); };
 
             // Run the window
             GameWindow.Run(AppSettings.SETTING_UPS, AppSettings.SETTING_FPS);

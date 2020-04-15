@@ -7,6 +7,7 @@ namespace BEngine2D.Input
     {
         private static BMouseClickInfo[] ButtonStates;
         private static Vector2 MouseLocation;
+        private static int ScrollWheelValue;
 
         public static void Initialize()
         {
@@ -22,6 +23,19 @@ namespace BEngine2D.Input
         {
             if (location.IsEmpty) return;
             MouseLocation = new Vector2(location.X, location.Y);
+        }
+
+        public static int GetScrollWheel() => ScrollWheelValue;
+        public static int GetScrollWheelNow() 
+        {
+            int value = ScrollWheelValue;
+            ScrollWheelValue = 0;
+            return value;
+        }
+
+        public static void UpdateScrollWheel(int value)
+        {
+            ScrollWheelValue = value;
         }
 
         public static BMouseClickInfo GetButtonState(BMouseButton button) => ButtonStates[(int)button];
