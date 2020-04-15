@@ -78,17 +78,10 @@ namespace BEngine2D.Render
         public void SetPosition(System.Numerics.Vector2 newPosition, BTweenType type, int numSteps)
         {
             PositionFrom = Position;
-            Position = newPosition;
-            PositionGoto = newPosition;
             TweenType = type;
             CurrentStep = 0;
             TweenSteps = numSteps;
-        }
-
-        public float GetDistanceFromLocation(System.Numerics.Vector2 location)
-        {
-            Console.WriteLine($"Player: {location}, Camera: {Position}");
-            return System.Numerics.Vector2.Distance(Position, location);
+            PositionGoto = newPosition;
         }
 
         public System.Numerics.Vector2 ToWorld(System.Numerics.Vector2 input)
