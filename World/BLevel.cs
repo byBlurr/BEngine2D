@@ -84,7 +84,7 @@ namespace BEngine2D.World
                 }
             }
         }
-        public BLevel(string mapname, string savename)
+        public BLevel(string mapname)
         {
             try
             {
@@ -92,15 +92,11 @@ namespace BEngine2D.World
                 if (!File.Exists($"Content/Maps/{mapname}.ls")) throw new FileNotFoundException($"No map found with name '{mapname}'.");
                 var Map = BLevelFile.FromJson(File.ReadAllText($"Content/Maps/{mapname}.ls"));
 
-                if (!Directory.Exists("Content/Saves")) Directory.CreateDirectory("Content/Saves");
-                if (!File.Exists($"Content/Saves/{savename}.ws")) new BGameSave().Save(savename);
-                var Save = BGameSave.Load(savename);
-
                 int width = Map.Width;
                 int height = Map.Height;
 
                 grid = new BBlock[width, height];
-                entities = Save.Entities;
+                entities = new List<BEntity>();
                 this.mapname = mapname;
                 playerStartPos = new Point(1, 1);
 
