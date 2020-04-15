@@ -14,6 +14,7 @@ namespace BEngine2D.World.Blocks
 
         public static void AddBlock(int id, BBlockTemplate block)
         {
+            if (id >= 255) throw new System.Exception("The max block id is 254.");
             Blocks[id] = block;
         }
 
