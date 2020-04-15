@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.IO;
+using System.Linq;
 using System.Numerics;
 
 namespace BEngine2D.World
@@ -154,6 +155,7 @@ namespace BEngine2D.World
         public void CreateEntity(BEntity entity)
         {
             entities.Add(entity);
+            entities = entities.OrderBy(e => e.position.Y).ToList<BEntity>();
         }
 
         public BEntity GetEntity(Vector2 pos, float range = 2000f)
