@@ -2,25 +2,58 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Numerics;
 
 namespace BEngine2D.Render
 {
     public class BGraphics
     {
-        public static void Draw(BTexture texture, System.Numerics.Vector2 position, System.Numerics.Vector2 scale, Color color, System.Numerics.Vector2 origin, RectangleF? sourceRec = null)
+        public static void DrawUi(BTexture texture, Vector4 position, Color colorOverlay, RectangleF? sourceRec = null)
         {
-            System.Numerics.Vector2[] vertices = new System.Numerics.Vector2[4]
+            Vector2[] vertices = new Vector2[4]
             {
-                new System.Numerics.Vector2(0,0),
-                new System.Numerics.Vector2(1,0),
-                new System.Numerics.Vector2(1,1),
-                new System.Numerics.Vector2(0,1),
+                new Vector2(0,0),
+                new Vector2(1,0),
+                new Vector2(1,1),
+                new Vector2(0,1),
             };
 
             GL.BindTexture(TextureTarget.Texture2D, texture.ID);
             GL.Begin(PrimitiveType.Quads);
 
-            GL.Color3(color);
+            GL.Color3(colorOverlay);
+            for (int i = 0; i < 4; i++)
+            {
+                if (sourceRec == null) GL.TexCoord2(vertices[i].X, vertices[i].Y);
+                else GL.TexCoord2((sourceRec.Value.Left + vertices[i].X * sourceRec.Value.Width) / texture.Width,
+                    (sourceRec.Value.Top + vertices[i].Y * sourceRec.Value.Height) / texture.Height);
+
+                vertices[i].X *= (sourceRec == null) ? texture.Width : sourceRec.Value.Width;
+                vertices[i].Y *= (sourceRec == null) ? texture.Height : sourceRec.Value.Height;
+                vertices[i] -= (sourceRec == null) ? new Vector2(texture.Width, texture.Height) : new Vector2(sourceRec.Value.Width, sourceRec.Value.Height);
+                vertices[i] *= (sourceRec == null) ? new Vector2(position.Z / texture.Width, position.W / texture.Height) : new Vector2(position.Z / sourceRec.Value.Width, position.W / sourceRec.Value.Height);
+                vertices[i] += new Vector2(position.X, position.Y);
+
+                GL.Vertex2(vertices[i].X, vertices[i].Y);
+            }
+
+            GL.End();
+        }
+
+        public static void Draw(BTexture texture, Vector2 position, Vector2 scale, Color colorOverlay, Vector2 origin, RectangleF? sourceRec = null)
+        {
+            Vector2[] vertices = new Vector2[4]
+            {
+                new Vector2(0,0),
+                new Vector2(1,0),
+                new Vector2(1,1),
+                new Vector2(0,1),
+            };
+
+            GL.BindTexture(TextureTarget.Texture2D, texture.ID);
+            GL.Begin(PrimitiveType.Quads);
+
+            GL.Color3(colorOverlay);
             for (int i = 0; i < 4; i++)
             {
                 if (sourceRec == null) GL.TexCoord2(vertices[i].X, vertices[i].Y);
