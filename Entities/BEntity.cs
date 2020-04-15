@@ -1,4 +1,6 @@
 ﻿using BEngine2D.Render;
+using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
 
@@ -12,15 +14,16 @@ namespace BEngine2D.Entities
         public Vector2 position;
         protected Vector2 size;
 
-        protected BTexture spriteSheet;
+        protected BTexture spritesheet;
         protected RectangleF currentSprite;
         protected RectangleF collisionBox;
         protected RectangleF drawBox;
 
+        
         public BEntity(Vector2 position, BTexture spriteSheet)
         {
             this.position = position;
-            this.spriteSheet = spriteSheet;
+            this.spritesheet = spriteSheet;
 
             size = new Vector2(32f);
             currentSprite = new RectangleF(0, 0, spriteSheet.Width, spriteSheet.Height);
@@ -30,28 +33,28 @@ namespace BEngine2D.Entities
         public BEntity(Vector2 position, BTexture spriteSheet, RectangleF spriteBox)
         {
             this.position = position;
-            this.spriteSheet = spriteSheet;
+            this.spritesheet = spriteSheet;
             this.currentSprite = spriteBox;
 
             size = new Vector2(32f);
             collisionBox = new RectangleF(0 - (size.X / 2), 0 - (size.Y), size.X, size.Y);
             drawBox = new RectangleF(0 - (size.X / 2), 0 - (size.Y), size.X, size.Y);
         }
-        public BEntity(Vector2 position, Vector2 size, BTexture spriteSheet, RectangleF spriteBox)
+        public BEntity(Vector2 position, BTexture spriteSheet, Vector2 size, RectangleF spriteBox)
         {
             this.position = position;
             this.size = size;
-            this.spriteSheet = spriteSheet;
+            this.spritesheet = spriteSheet;
             this.currentSprite = spriteBox;
 
             collisionBox = new RectangleF(0 - (size.X / 2), 0 - (size.Y), size.X, size.Y);
             drawBox = new RectangleF(0 - (size.X / 2), 0 - (size.Y), size.X, size.Y);
         }
-        public BEntity(Vector2 position, Vector2 size, BTexture spriteSheet, RectangleF spriteBox, RectangleF collisionBox)
+        public BEntity(Vector2 position, BTexture spriteSheet, Vector2 size, RectangleF spriteBox, RectangleF collisionBox)
         {
             this.position = position;
             this.size = size;
-            this.spriteSheet = spriteSheet;
+            this.spritesheet = spriteSheet;
             this.currentSprite = spriteBox;
             this.collisionBox = collisionBox;
 
@@ -65,13 +68,21 @@ namespace BEngine2D.Entities
         public virtual void Draw()
         {
             BGraphics.Draw(
-                spriteSheet,
+                spritesheet,
                 this.position,
                 new Vector2(DrawBox.Width / 100f, DrawBox.Height / 100f),
                 Color.Transparent,
                 new Vector2(DrawBox.Width * 0.75f, DrawBox.Height * 1.75f),
                 currentSprite
             );
+        }
+
+        public override bool Equals(object obj)
+        {
+            return obj is BEntity entity &&
+                   position.Equals(entity.position) &&
+                   size.Equals(entity.size) &&
+                   EqualityComparer<BTexture>.Default.Equals(spritesheet, entity.spritesheet);
         }
 
         // GETTERS
@@ -94,6 +105,22 @@ namespace BEngine2D.Entities
             get
             {
                 return drawBox;
+            }
+        }
+
+        public RectangleF CurrentSprite
+        {
+            get
+            {
+                return currentSprite;
+            }
+        }
+
+        public BTexture Spritesheet
+        {
+            get
+            {
+                return spritesheet;
             }
         }
     }

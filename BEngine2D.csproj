@@ -80,6 +80,7 @@
     <Compile Include="Util\AppInfo.cs" />
     <Compile Include="Util\AppSettings.cs" />
     <Compile Include="Util\LaunchSettings.cs" />
+    <Compile Include="World\BGameSave.cs" />
     <Compile Include="World\BLevel.cs" />
     <Compile Include="World\BLevelFile.cs" />
     <Compile Include="World\Blocks\BBlock.cs" />

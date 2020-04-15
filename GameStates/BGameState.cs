@@ -1,4 +1,5 @@
-﻿using BEngine2D.Render;
+﻿using BEngine2D.Entities;
+using BEngine2D.Render;
 using BEngine2D.Util;
 using BEngine2D.World;
 using BEngine2D.World.Blocks;
@@ -17,17 +18,16 @@ namespace BEngine2D.GameStates
         {
             base.OnLoad(Window);
             Camera = new BCamera(Vector2.Zero, 1.0, 0.0);
+            InitialiseTextures();
             BBlocks.Initialise();
+            InitialiseBlocks();
             InitialiseLevel();
         }
+        public virtual void InitialiseTextures() { }
 
-        /// <summary>
-        /// Initialise Textures, Blocks and Level
-        /// </summary>
-        public virtual void InitialiseLevel()
-        {
+        public virtual void InitialiseBlocks() { }
 
-        }
+        public virtual void InitialiseLevel() { }
 
         public override void Tick(double delta)
         {
@@ -47,6 +47,12 @@ namespace BEngine2D.GameStates
                     RectangleF source = Level[x, y].TexturePosition;
                     BGraphics.Draw(Textures[0], new Vector2(x * AppInfo.GRIDSIZE, y * AppInfo.GRIDSIZE), new Vector2((float)AppInfo.GRIDSIZE / AppInfo.TILESIZE), Color.Transparent, Vector2.Zero, source);
                 }
+            }
+
+            foreach (BEntity entity in Level.Entities)
+            {
+                if (entity == null) return;
+                entity.Draw();
             }
         }
     }

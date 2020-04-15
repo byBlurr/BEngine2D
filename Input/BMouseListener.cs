@@ -39,9 +39,9 @@ namespace BEngine2D.Input
 
         public static void UpdateButton(BMouseButton button, Vector2 location, bool state)
         {
+            ButtonStates[(int)button].Location = location;
             if (ButtonStates[(int)button].IsPressed == state) return;
             ButtonStates[(int)button].IsPressed = state;
-            ButtonStates[(int)button].Location = location;
         }
     }
 
