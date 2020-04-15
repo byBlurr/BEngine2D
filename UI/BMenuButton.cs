@@ -1,20 +1,21 @@
-﻿using BEngine2D.Util;
+﻿using BEngine2D.Render;
+using BEngine2D.Util;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Drawing;
+using System.Numerics;
 
 namespace BEngine2D.UI
 {
     public class BMenuButton
     {
         protected Action<Object> action;
+        private BTexture texture;
         public float X, Y, X1, Y1, WIDTH, HEIGHT;
 
-        public BMenuButton(Action<Object> action, float x, float y, float width, float height)
+        public BMenuButton(Action<Object> action, BTexture texture, float x, float y, float width, float height)
         {
             this.action = action;
+            this.texture = texture;
             X = x;
             Y = y;
             WIDTH = width;
@@ -31,6 +32,11 @@ namespace BEngine2D.UI
         public virtual void Pressed(Object obj)
         {
             this.action.Invoke(obj);
+        }
+
+        public virtual void Draw()
+        {
+            BGraphics.DrawUi(texture, new Vector4(ScreenX, ScreenY, WIDTH, HEIGHT), Color.Transparent);
         }
     }
 }

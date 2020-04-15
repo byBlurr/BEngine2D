@@ -47,16 +47,7 @@ namespace BEngine2D.GameStates
         public override void Draw()
         {
             base.Draw();
-
-            foreach (BMenuButton button in buttons)
-            {
-                GL.Begin(PrimitiveType.Quads);
-                GL.Vertex2(button.ScreenX, button.ScreenY);
-                GL.Vertex2(button.ScreenX1, button.ScreenY);
-                GL.Vertex2(button.ScreenX1, button.ScreenY1);
-                GL.Vertex2(button.ScreenX, button.ScreenY1);
-                GL.End();
-            }
+            foreach (BMenuButton button in buttons) button.Draw();
         }
     }
 }
