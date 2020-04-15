@@ -1,17 +1,9 @@
 ## Todo list in order...
-### BGraphics.DrawUI()
-- Needs to draw to the screen without camera offset
-- BMenuState should use this method to draw a texture instead of a white rectangle
-
-### BMenuButton.Draw()
-- Move its draw functionality into BMenuButton
-- Use BGraphics.DrawUI() to draw the texture
+### BEntities
+- Initialise all entities
 
 ### BCharacter Collision
 - All classes derived from BCharacter should have this
-
-### BEntities
-- Initialise all entities
 
 ### BGameSave
 - Save entities
