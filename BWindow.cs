@@ -10,11 +10,13 @@ namespace BEngine2D
 {
     public class BWindow
     {
+        private BLaunchWindow Launcher;
         public GameWindow GameWindow;
         protected BState CurrentState;
 
-        public void Launch(BState startState)
+        public void Launch(BLaunchWindow launcher, BState startState)
         {
+            Launcher  = launcher;
             CurrentState = startState;
 
             // Setup window
@@ -52,6 +54,15 @@ namespace BEngine2D
 
             // Run the window
             GameWindow.Run(AppSettings.SETTING_UPS, AppSettings.SETTING_FPS);
+        }
+
+        public void ExitWindow(object obj)
+        {
+            GameWindow.Close();
+            if (Launcher != null)
+            {
+                Launcher.GameClosed();
+            }
         }
 
         public void SwitchState(BState newState)

@@ -67,6 +67,7 @@
     <Compile Include="Entities\BMovementType.cs" />
     <Compile Include="Entities\BPlayableCharacter.cs" />
     <Compile Include="GameStates\BGameState.cs" />
+    <Compile Include="GameStates\BMenuState.cs" />
     <Compile Include="GameStates\BState.cs" />
     <Compile Include="Input\BKeyboardListener.cs" />
     <Compile Include="Input\BMouseClickInfo.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Render\BGraphics.cs" />
     <Compile Include="Render\BTexture2D.cs" />
     <Compile Include="Render\BCamera.cs" />
+    <Compile Include="UI\BMenuButton.cs" />
     <Compile Include="Util\AppInfo.cs" />
     <Compile Include="Util\AppSettings.cs" />
     <Compile Include="Util\LaunchSettings.cs" />

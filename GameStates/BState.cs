@@ -9,7 +9,7 @@ using System.Drawing;
 
 namespace BEngine2D.GameStates
 {
-    public class BState
+    public abstract class BState
     {
         protected BWindow Window;
 

@@ -58,11 +58,23 @@ namespace BEngine2D
 
         private void LaunchGame(object sender, EventArgs e)
         {
-            if (this.close) this.Close();
-            else this.LaunchButton.Enabled = false;
-
             BWindow window = new BWindow();
-            window.Launch(startState);
+            if (this.close)
+            {
+                this.Close();
+                window.Launch(null, startState);
+            }
+            else
+            {
+                this.LaunchButton.Enabled = false;
+                window.Launch(this, startState);
+            }
+            
+        }
+
+        public void GameClosed()
+        {
+            this.LaunchButton.Enabled = true;
         }
 
         private void SaveSettings(object sender, EventArgs e)
