@@ -15,7 +15,7 @@ namespace BEngine2D.AI.Navigation
     public class BNavigationGrid
     {
         protected int x, y, width, height, tileSize;
-        protected float[,] grid;
+        protected BPathNode[,] grid;
 
         public BNavigationGrid(int x, int y, int width, int height, int tileSize)
         {
@@ -24,7 +24,29 @@ namespace BEngine2D.AI.Navigation
             this.width = width;
             this.height = height;
             this.tileSize = tileSize;
-            this.grid = new float[width, height];
+
+            // Initiate the nodes
+            this.grid = new BPathNode[width, height];
+            for (int x2 = 0; x2 < width; x2++)
+            {
+                for (int y2 = 0; y2 < height; y2++)
+                {
+                    grid[x2, y2] = new BPathNode(x2, y2, false, null, false);
+                }
+            }
+
+            // Set up neighbours
+            for (int x2 = 0; x2 < width; x2++)
+            {
+                for (int y2 = 0; y2 < height; y2++)
+                {
+                    grid[x2, y2].Neighbours.Clear();
+                    if (x2 + 1 < width) grid[x2, y2].Neighbours.Add(grid[x2+1, y2]);
+                    if (y2 + 1 < height) grid[x2, y2].Neighbours.Add(grid[x2, y2+1]);
+                    if (x2 - 1 >= 0) grid[x2, y2].Neighbours.Add(grid[x2-1, y2]);
+                    if (y2 - 1 >= 0) grid[x2, y2].Neighbours.Add(grid[x2, y2-1]);
+                }
+            }
         }
 
         public void Update(BLevel level)
@@ -41,8 +63,8 @@ namespace BEngine2D.AI.Navigation
                     int levelY = (int)Math.Floor(y / yScale);
                     if (levelX < level.Width && levelY < level.Height)
                     {
-                        if (level[levelX, levelY].IsSolid) this[x, y] = float.MaxValue;
-                        else this[x, y] = 0f;
+                        if (level[levelX, levelY].IsSolid) this[x, y].Obstructed = true;
+                        else this[x, y].Obstructed = false;
                     }
 
                     RectangleF gridTile = new RectangleF(x * tileSize, y * tileSize, tileSize, tileSize);
@@ -52,7 +74,7 @@ namespace BEngine2D.AI.Navigation
                         {
                             if (gridTile.IntersectsWith(new RectangleF(entity.CollisionBox.X + entity.position.X, entity.CollisionBox.Y + entity.position.Y, entity.CollisionBox.Width, entity.CollisionBox.Height)))
                             {
-                                this[x, y] = float.MaxValue;
+                                this[x, y].Obstructed = true;
                             }
                         }
                     }
@@ -60,39 +82,44 @@ namespace BEngine2D.AI.Navigation
             }
         }
 
-        public void FindPathTo(Vector2 from, Vector2 destination)
+        public void FindPathTo(Vector2 start, Vector2 destination)
         {
-            // Get our navmesh tile equiv to the coords
+            if (start == destination) return;
+
+            for (int x2 = 0; x2 < width; x2++)
+            {
+                for (int y2 = 0; y2 < height; y2++)
+                {
+                    grid[x2, y2].GlobalGoal = float.MaxValue;
+                    grid[x2, y2].LocalGoal = float.MaxValue;
+                    grid[x2, y2].Parent = null;
+                    grid[x2, y2].Visited = false;
+                    grid[x2, y2].Destination = false;
+                }
+            }
+
+            bool pathFound = false;
+
+            int startX = (int)(start.X / tileSize);
+            int startY = (int)(start.Y / tileSize);
             int destX = (int)(destination.X / tileSize);
             int destY = (int)(destination.Y / tileSize);
-            int fromX = (int)(from.X / tileSize);
-            int fromY = (int)(from.Y / tileSize);
 
-            // Make sure we arent trying to go to where we already are
-            if (destX != fromX || destY != fromY)
+            if (startX >= 0 && startX < width && destX >= 0&& destX < width && startY >= 0 && startY < height && destY >= 0 && destY < height)
             {
-                // Make sure the destination is inside the nav mesh bounds
-                if (destX >= 0 && destX < width && destY >= 0 && destY < height)
-                {
-                    // Make sure we can go to our destination
-                    if (grid[destX, destY] < float.MaxValue)
-                    {
-                        // Set our starting point as max float
-                        grid[fromX, fromY] = float.MaxValue;
+                List<BPathNode> nodes = new List<BPathNode>();
+                var destNode = grid[destX, destY];
+                destNode.Destination = true;
 
-                        // Set our destination location to 0
-                        float currentScore = 0f;
-                        grid[destX, destY] = currentScore;
-                        currentScore++;
-
-                        // Algorithm to find fastest path
-                    }
-                }
+                var startNode = grid[startX, startY];
+                startNode.Visited = true;
+                startNode.GlobalGoal = (int)Vector2.Distance(new Vector2(startX, startY), new Vector2(destX, destY));
+                nodes.Add(startNode);
             }
         }
 
         // Getters and Setters
-        public float this[int x, int y]
+        public BPathNode this[int x, int y]
         {
             get
             {
@@ -109,5 +136,29 @@ namespace BEngine2D.AI.Navigation
         public float Width { get => width; }
         public float Height { get => height; }
         public float TileSize { get => tileSize; }
+    }
+
+    public class BPathNode
+    {
+        public bool Obstructed;
+        public bool Visited;
+        public float GlobalGoal;
+        public float LocalGoal;
+        public int X, Y;
+        public bool Destination;
+
+        public List<BPathNode> Neighbours;
+        public BPathNode Parent;
+
+        public BPathNode(int x, int y, bool obstructed, BPathNode parent, bool visited)
+        {
+            X = x;
+            Y = y;
+            Obstructed = obstructed;
+            Parent = parent;
+            Visited = visited;
+            Neighbours = new List<BPathNode>();
+            Destination = false;
+        }
     }
 }
