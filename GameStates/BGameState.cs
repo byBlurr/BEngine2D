@@ -3,7 +3,9 @@ using BEngine2D.Render;
 using BEngine2D.Util;
 using BEngine2D.World;
 using BEngine2D.World.Blocks;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Numerics;
 
 namespace BEngine2D.GameStates
@@ -52,9 +54,12 @@ namespace BEngine2D.GameStates
                 }
             }
 
-            if (Player != null) Player.Draw();
+            List<BEntity> renderOrder = new List<BEntity>();
+            renderOrder.AddRange(Level.Entities);
+            if (Player != null) renderOrder.Add(Player);
+            renderOrder = renderOrder.OrderBy(x => x.GroundLevel).ToList<BEntity>();
 
-            foreach (BEntity entity in Level.Entities)
+            foreach (BEntity entity in renderOrder)
             {
                 if (entity == null) return;
                 entity.Draw();

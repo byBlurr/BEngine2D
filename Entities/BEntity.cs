@@ -77,7 +77,7 @@ namespace BEngine2D.Entities
                 currentSprite
             ); 
             
-            if (AppSettings.SETTING_DEBUG) BGraphics.DrawCollisionBox(this.position - (new Vector2(CollisionBox.Width, CollisionBox.Height) / 2f), CollisionBox);
+            if (AppSettings.SETTING_DEBUG) BGraphics.DrawCollisionBox((this.position + new Vector2(CollisionBox.X, CollisionBox.Y)), CollisionBox);
         }
 
         public override bool Equals(object obj)
@@ -89,6 +89,13 @@ namespace BEngine2D.Entities
         }
 
         // GETTERS
+        public float GroundLevel
+        {
+            get
+            {
+                return position.Y + (collisionBox.Y + collisionBox.Height);
+            }
+        }
         public Vector2 Size
         {
             get
