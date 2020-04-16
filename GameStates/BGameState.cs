@@ -76,6 +76,7 @@ namespace BEngine2D.GameStates
                     {
                         var color = Color.Green;
                         if (NavMesh[x, y].Obstructed) color = Color.Red;
+                        else if (!NavMesh[x, y].Visited) color = Color.Black;
                         BGraphics.DrawRec(new Vector2(x * NavMesh.TileSizeX, y * NavMesh.TileSizeY), new RectangleF(x * NavMesh.TileSizeX, y * NavMesh.TileSizeY, NavMesh.TileSizeX, NavMesh.TileSizeY), color);
                     }
                 }

@@ -167,13 +167,14 @@ namespace BEngine2D.Entities
             this.position += (velocity * (float)delta);
         }
 
+        // TODO: Rework the collision. Characters get stuck to the side of collision boxes.
         public void HandleCollision(BLevel level)
         {
             int minX = (int)(Math.Floor((this.position.X - size.X / 2f) / AppInfo.GRIDSIZE));
             int minY = (int)(Math.Floor((this.position.Y - size.Y / 2f) / AppInfo.GRIDSIZE));
             int maxX = (int)(Math.Floor((this.position.X + size.X / 2f) / AppInfo.GRIDSIZE));
             int maxY = (int)(Math.Floor((this.position.Y + size.Y / 2f) / AppInfo.GRIDSIZE));
-            RectangleF thisCollide = new RectangleF(position.X + CollisionBox.X, position.Y + CollisionBox.Y, CollisionBox.Width, CollisionBox.Height);
+            RectangleF thisCollide = new RectangleF(position.X + CollisionBox.X, GroundLevel - CollisionBox.Height, CollisionBox.Width, CollisionBox.Height);
 
             for (int x = minX; x <= maxX; x++)
             {
@@ -217,7 +218,7 @@ namespace BEngine2D.Entities
                         if (min == float.MaxValue)
                             continue;
 
-                        this.position += minDirection * min;
+                        this.position += (minDirection * min);
 
                         if (this.velocity.X * minDirection.X < 0) this.velocity.X = 0;
                         if (this.velocity.Y * minDirection.Y < 0) this.velocity.Y = 0;
@@ -266,7 +267,7 @@ namespace BEngine2D.Entities
                         if (min == float.MaxValue)
                             continue;
 
-                        this.position += minDirection * min;
+                        this.position += (minDirection * min);
 
                         if (this.velocity.X * minDirection.X < 0) this.velocity.X = 0;
                         if (this.velocity.Y * minDirection.Y < 0) this.velocity.Y = 0;
