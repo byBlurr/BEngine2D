@@ -152,6 +152,54 @@ namespace BEngine2D.Entities
                     }
                 }
             }
+
+            for (int e = 0; e < level.Entities.Count; e++)
+            {
+                if (level.Entities[e] != null)
+                {
+                    var entity = level.Entities[e];
+                    var entityCollision = new RectangleF(entity.position.X + entity.CollisionBox.X, entity.position.Y + entity.CollisionBox.Y, entity.CollisionBox.Width, entity.CollisionBox.Height);
+
+                    if (thisCollide.IntersectsWith(entityCollision))
+                    {
+                        float[] depths = new float[4]
+                        {
+                            entityCollision.Right - thisCollide.Left, // Pos X
+                            entityCollision.Bottom - thisCollide.Top, // Pos Y
+                            thisCollide.Right - entityCollision.Left, // Neg X
+                            thisCollide.Bottom - entityCollision.Top, // Neg Y
+                        };
+
+                        Point[] directions = new Point[4]
+                        {
+                            new Point(1, 0),
+                            new Point(0, 1),
+                            new Point(-1, 0),
+                            new Point(0, -1),
+                        };
+
+                        float min = float.MaxValue;
+                        Vector2 minDirection = Vector2.Zero;
+
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (depths[i] < min)
+                            {
+                                min = depths[i];
+                                minDirection = new Vector2(directions[i].X, directions[i].Y);
+                            }
+                        }
+
+                        if (min == float.MaxValue)
+                            continue;
+
+                        this.position += minDirection * min;
+
+                        if (this.velocity.X * minDirection.X < 0) this.velocity.X = 0;
+                        if (this.velocity.Y * minDirection.Y < 0) this.velocity.Y = 0;
+                    }
+                }
+            }
         }
 
         public override void Draw()
