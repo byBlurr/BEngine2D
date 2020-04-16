@@ -1,4 +1,5 @@
-﻿using BEngine2D.Render;
+﻿using BEngine2D.AI.Navigation;
+using BEngine2D.Render;
 using BEngine2D.Util;
 using BEngine2D.World;
 using System;
@@ -205,6 +206,22 @@ namespace BEngine2D.Entities
         public override void Draw()
         {
             base.Draw();
+        }
+
+        public void FollowPath(BNavigationGrid nav)
+        {
+            if (nav.DestNode != null)
+            {
+                BPathNode pathNode = nav.DestNode;
+                
+                while (pathNode.Parent != null)
+                {
+                    Vector2 nodeVec = new Vector2(pathNode.X * nav.TileSize, pathNode.Y * nav.TileSize);
+                    MoveToPosition(nodeVec);
+                    
+                    pathNode = pathNode.Parent;
+                }
+            }
         }
 
         public void MoveToPosition(System.Numerics.Vector2 position) => positionGoto = position;

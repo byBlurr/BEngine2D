@@ -84,9 +84,9 @@ namespace BEngine2D.AI.Navigation
             }
         }
 
-        public void FindPathTo(Vector2 start, Vector2 destination)
+        public BNavigationGrid FindPathTo(Vector2 start, Vector2 destination)
         {
-            if (start == destination) return;
+            if (start == destination) return null;
 
             for (int x2 = 0; x2 < width; x2++)
             {
@@ -100,24 +100,58 @@ namespace BEngine2D.AI.Navigation
                 }
             }
 
-            bool pathFound = false;
-
-            int startX = (int)(start.X / tileSize);
-            int startY = (int)(start.Y / tileSize);
-            int destX = (int)(destination.X / tileSize);
-            int destY = (int)(destination.Y / tileSize);
+            int startX = (int)(destination.X / tileSize);
+            int startY = (int)(destination.Y / tileSize);
+            int destX = (int)(start.X / tileSize);
+            int destY = (int)(start.Y / tileSize);
 
             if (startX >= 0 && startX < width && destX >= 0&& destX < width && startY >= 0 && startY < height && destY >= 0 && destY < height)
             {
-                List<BPathNode> nodes = new List<BPathNode>();
                 destNode = grid[destX, destY];
                 destNode.Destination = true;
 
                 var startNode = grid[startX, startY];
-                startNode.Visited = true;
-                startNode.GlobalGoal = (int)Vector2.Distance(new Vector2(startX, startY), new Vector2(destX, destY));
-                nodes.Add(startNode);
+                startNode.LocalGoal = 0.0f;
+                startNode.GlobalGoal = DistanceBetweenNodes(startNode, destNode);
+
+                BPathNode nodeCurrent = startNode;
+                nodeCurrent = startNode;
+
+                List<BPathNode> notTestedNodes = new List<BPathNode>();
+                notTestedNodes.Add(startNode);
+
+                while (notTestedNodes.Count != 0)
+                {
+                    notTestedNodes = notTestedNodes.OrderBy(j => j.GlobalGoal).ToList<BPathNode>();
+
+                    while (notTestedNodes.Count != 0 && notTestedNodes[0].Visited) notTestedNodes.RemoveAt(0);
+
+                    if (notTestedNodes.Count == 0) break;
+
+                    nodeCurrent = notTestedNodes[0];
+                    nodeCurrent.Visited = true;
+
+                    foreach (var neighbour in nodeCurrent.Neighbours)
+                    {
+                        if (!neighbour.Obstructed && !neighbour.Visited) notTestedNodes.Add(neighbour);
+
+                        float possiblyLowerGoal = nodeCurrent.LocalGoal + DistanceBetweenNodes(nodeCurrent, neighbour);
+
+                        if (possiblyLowerGoal < neighbour.LocalGoal)
+                        {
+                            neighbour.Parent = nodeCurrent;
+                            neighbour.LocalGoal = possiblyLowerGoal;
+                            neighbour.GlobalGoal = neighbour.LocalGoal + DistanceBetweenNodes(neighbour, destNode);
+                        }
+                    }
+                }
             }
+            return this;
+        }
+
+        private float DistanceBetweenNodes(BPathNode node1, BPathNode node2)
+        {
+            return Vector2.Distance(new Vector2(node1.X, node1.Y), new Vector2(node2.X, node2.Y));
         }
 
         // Getters and Setters
