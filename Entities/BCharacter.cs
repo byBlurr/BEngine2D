@@ -105,11 +105,11 @@ namespace BEngine2D.Entities
             {
                 if (path != null)
                 {
-                    if (pathNode == null) pathNode = path.DestNode;
+                    if (pathNode == null && path.DestNode.Parent != null) pathNode = path.DestNode.Parent;
 
                     if (pathNode.Parent != null)
                     {
-                        Vector2 nodeVec = new Vector2(pathNode.X * path.TileSizeX, pathNode.Y * path.TileSizeY);
+                        Vector2 nodeVec = new Vector2((pathNode.X * path.TileSizeX) + (path.TileSizeX/2), (pathNode.Y * path.TileSizeY) + (path.TileSizeY / 2));
                         if (Vector2.Distance(nodeVec, position) > 10.0f)
                         {
                             Vector2 dir = new Vector2(nodeVec.X, nodeVec.Y) - position;
