@@ -87,7 +87,7 @@ namespace BEngine2D.AI.Navigation
 
             if (destNode != null && startNode != null)
             {
-                // Update the path
+                FindPathTo(new Vector2(destNode.X * TileSizeX, destNode.Y * TileSizeY), new Vector2(startNode.X * TileSizeX, startNode.Y * TileSizeY));
             }
         }
 

@@ -118,6 +118,7 @@ namespace BEngine2D.Entities
                         else
                         {
                             pathNode = pathNode.Parent;
+                            path.DestNode = pathNode;
                         }
                     }
                     else
