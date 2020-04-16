@@ -14,8 +14,10 @@ namespace BEngine2D.Entities
     public class BCharacter : BEntity
     {
         // Movement
-        private BMovementType movementType;
+        public BMovementType movementType;
         public Vector2 positionGoto, velocity;
+        public BNavigationGrid path;
+        public BPathNode pathNode;
 
         // States
         private BEntityState currentState;
@@ -34,6 +36,9 @@ namespace BEngine2D.Entities
             maxMovementSpeed = 20.0f;
             maxHealth = 200;
             currentHealth = maxHealth;
+
+            path = null;
+            pathNode = null;
         }
         public BCharacter(Vector2 position, BTexture spriteSheet, RectangleF spriteBox) : base(position, spriteSheet, spriteBox)
         {
@@ -44,6 +49,9 @@ namespace BEngine2D.Entities
             maxMovementSpeed = 20.0f;
             maxHealth = 200;
             currentHealth = maxHealth;
+
+            path = null;
+            pathNode = null;
         }
         public BCharacter(Vector2 position, BTexture spriteSheet, RectangleF spriteBox, BMovementType movementType) : base(position, spriteSheet, spriteBox)
         {
@@ -54,6 +62,9 @@ namespace BEngine2D.Entities
             maxMovementSpeed = 20.0f;
             maxHealth = 200;
             currentHealth = maxHealth;
+
+            path = null;
+            pathNode = null;
         }
         public BCharacter(Vector2 position, BTexture spriteSheet, RectangleF spriteBox, BMovementType movementType, float maxMovementSpeed, int maxHealth) : base(position, spriteSheet, spriteBox)
         {
@@ -65,6 +76,9 @@ namespace BEngine2D.Entities
             velocity = Vector2.Zero;
             currentState = BEntityState.Idle;
             currentHealth = maxHealth;
+
+            path = null;
+            pathNode = null;
         }
 
         public override void Update(double delta, BLevel level)
@@ -77,7 +91,7 @@ namespace BEngine2D.Entities
 
         public void HandleMovement(double delta)
         {
-            if (movementType == BMovementType.MoveToPosition)
+            if (this.movementType == BMovementType.MoveToPosition)
             {
                 if (positionGoto.Y - this.position.Y >= 0.1f) velocity.Y = Math.Min(maxMovementSpeed, (positionGoto.Y - this.position.Y));
                 else if (this.position.Y - positionGoto.Y >= 0.1f) velocity.Y = Math.Max(-maxMovementSpeed, -(this.position.Y - positionGoto.Y));
@@ -86,6 +100,33 @@ namespace BEngine2D.Entities
                 if (positionGoto.X - this.position.X >= 0.1f) velocity.X = Math.Min(maxMovementSpeed, (positionGoto.X - this.position.X));
                 else if (this.position.X - positionGoto.X >= 0.1f) velocity.X = Math.Max(-maxMovementSpeed, -(this.position.X - positionGoto.X));
                 else velocity.X = 0.0f;
+            }
+            else if (this.movementType == BMovementType.FollowPath)
+            {
+                if (path != null)
+                {
+                    if (pathNode == null) pathNode = path.DestNode;
+
+                    if (pathNode.Parent != null)
+                    {
+                        Vector2 nodeVec = new Vector2(pathNode.X * path.TileSizeX, pathNode.Y * path.TileSizeY);
+                        if (Vector2.Distance(nodeVec, position) > 10.0f)
+                        {
+                            Console.WriteLine(Vector2.Distance(nodeVec, position));
+                            Vector2 dir = new Vector2(nodeVec.X, nodeVec.Y) - position;
+                            MoveInDirection(dir);
+                        }
+                        else
+                        {
+                            pathNode = pathNode.Parent;
+                        }
+                    }
+                    else
+                    {
+                        velocity = Vector2.Zero;
+                        path = null;
+                    }
+                }
             }
 
             if (velocity == Vector2.Zero) currentState = BEntityState.Idle;
@@ -208,22 +249,7 @@ namespace BEngine2D.Entities
             base.Draw();
         }
 
-        public void FollowPath(BNavigationGrid nav)
-        {
-            if (nav.DestNode != null)
-            {
-                BPathNode pathNode = nav.DestNode;
-                
-                while (pathNode.Parent != null)
-                {
-                    Vector2 nodeVec = new Vector2(pathNode.X * nav.TileSize, pathNode.Y * nav.TileSize);
-                    MoveToPosition(nodeVec);
-                    
-                    pathNode = pathNode.Parent;
-                }
-            }
-        }
-
+        public void FollowPath(BNavigationGrid nav) => path = nav;
         public void MoveToPosition(System.Numerics.Vector2 position) => positionGoto = position;
         public void MoveInDirection(System.Numerics.Vector2 direction) => velocity = direction;
 

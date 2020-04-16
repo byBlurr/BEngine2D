@@ -2,6 +2,7 @@
 {
     public enum BMovementType
     {
+        FollowPath,
         MoveToPosition,
         ManualMovement,
     }

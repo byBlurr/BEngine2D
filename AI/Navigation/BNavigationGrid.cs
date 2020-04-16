@@ -14,17 +14,18 @@ namespace BEngine2D.AI.Navigation
 {
     public class BNavigationGrid
     {
-        protected int x, y, width, height, tileSize;
+        protected int x, y, width, height, tileSizeX, tileSizeY;
         protected BPathNode[,] grid;
         protected BPathNode destNode;
 
-        public BNavigationGrid(int x, int y, int width, int height, int tileSize)
+        public BNavigationGrid(int x, int y, int levelWidth, int levelHeight, int levelTileSize, int tileSizeX, int tileSizeY)
         {
             this.x = x;
             this.y = y;
-            this.width = width;
-            this.height = height;
-            this.tileSize = tileSize;
+            this.width = (levelWidth * levelTileSize) / tileSizeX;
+            this.height = (levelHeight * levelTileSize) / tileSizeY;
+            this.tileSizeX = tileSizeX;
+            this.tileSizeY = tileSizeY;
             this.destNode = null;
 
             // Initiate the nodes
@@ -69,7 +70,7 @@ namespace BEngine2D.AI.Navigation
                         else this[x, y].Obstructed = false;
                     }
 
-                    RectangleF gridTile = new RectangleF(x * tileSize, y * tileSize, tileSize, tileSize);
+                    RectangleF gridTile = new RectangleF(x * tileSizeX, y * tileSizeY, tileSizeX, tileSizeY);
                     foreach (BEntity entity in level.Entities)
                     {
                         if (entity != null)
@@ -100,10 +101,10 @@ namespace BEngine2D.AI.Navigation
                 }
             }
 
-            int startX = (int)(destination.X / tileSize);
-            int startY = (int)(destination.Y / tileSize);
-            int destX = (int)(start.X / tileSize);
-            int destY = (int)(start.Y / tileSize);
+            int startX = (int)(destination.X / tileSizeX);
+            int startY = (int)(destination.Y / tileSizeY);
+            int destX = (int)(start.X / tileSizeX);
+            int destY = (int)(start.Y / tileSizeY);
 
             if (startX >= 0 && startX < width && destX >= 0&& destX < width && startY >= 0 && startY < height && destY >= 0 && destY < height)
             {
@@ -171,7 +172,8 @@ namespace BEngine2D.AI.Navigation
         public float Y { get => y; }
         public float Width { get => width; }
         public float Height { get => height; }
-        public float TileSize { get => tileSize; }
+        public float TileSizeX { get => tileSizeX; }
+        public float TileSizeY { get => tileSizeY; }
         public BPathNode DestNode { get => destNode; }
     }
 

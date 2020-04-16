@@ -28,8 +28,6 @@ namespace BEngine2D.GameStates
             BBlocks.Initialise();
             InitialiseBlocks();
             InitialiseLevel();
-            this.NavMesh = new BNavigationGrid(0, 0, Level.Width * 4, Level.Height * 4, AppInfo.GRIDSIZE / 4);
-            NavMesh.Update(Level);
         }
         public virtual void InitialiseTextures() { }
 
@@ -78,7 +76,7 @@ namespace BEngine2D.GameStates
                     {
                         var color = Color.Green;
                         if (NavMesh[x, y].Obstructed) color = Color.Red;
-                        BGraphics.DrawRec(new Vector2(x * NavMesh.TileSize, y * NavMesh.TileSize), new RectangleF(x * NavMesh.TileSize, y * NavMesh.TileSize, NavMesh.TileSize, NavMesh.TileSize), color);
+                        BGraphics.DrawRec(new Vector2(x * NavMesh.TileSizeX, y * NavMesh.TileSizeY), new RectangleF(x * NavMesh.TileSizeX, y * NavMesh.TileSizeY, NavMesh.TileSizeX, NavMesh.TileSizeY), color);
                     }
                 }
             }
@@ -88,11 +86,11 @@ namespace BEngine2D.GameStates
                 if (NavMesh.DestNode != null)
                 {
                     BPathNode pathNode = NavMesh.DestNode;
-                    BGraphics.DrawRec(new Vector2(pathNode.X * NavMesh.TileSize, pathNode.Y * NavMesh.TileSize), new RectangleF(pathNode.X * NavMesh.TileSize, pathNode.Y * NavMesh.TileSize, NavMesh.TileSize, NavMesh.TileSize), Color.Orange);
+                    BGraphics.DrawRec(new Vector2(pathNode.X * NavMesh.TileSizeX, pathNode.Y * NavMesh.TileSizeY), new RectangleF(pathNode.X * NavMesh.TileSizeX, pathNode.Y * NavMesh.TileSizeY, NavMesh.TileSizeX, NavMesh.TileSizeY), Color.Orange);
 
                     while (pathNode.Parent != null)
                     {
-                        BGraphics.DrawRec(new Vector2(pathNode.X * NavMesh.TileSize, pathNode.Y * NavMesh.TileSize), new RectangleF(pathNode.X * NavMesh.TileSize, pathNode.Y * NavMesh.TileSize, NavMesh.TileSize, NavMesh.TileSize), Color.Yellow);
+                        BGraphics.DrawRec(new Vector2(pathNode.X * NavMesh.TileSizeX, pathNode.Y * NavMesh.TileSizeY), new RectangleF(pathNode.X * NavMesh.TileSizeX, pathNode.Y * NavMesh.TileSizeY, NavMesh.TileSizeX, NavMesh.TileSizeY), Color.Yellow);
                         pathNode = pathNode.Parent;
                     }
                 }
