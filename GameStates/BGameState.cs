@@ -12,6 +12,7 @@ namespace BEngine2D.GameStates
     {
         protected BLevel Level;
         protected BCamera Camera;
+        protected BPlayableCharacter Player;
         protected BTexture[] Textures = new BTexture[255];
 
         public override void OnLoad(BWindow Window)
@@ -33,6 +34,8 @@ namespace BEngine2D.GameStates
         {
             base.Tick(delta);
             Camera.Update();
+
+            if (Player != null) Player.Update(delta, Level);
         }
 
         public override void Draw()
@@ -48,6 +51,8 @@ namespace BEngine2D.GameStates
                     BGraphics.Draw(Textures[0], new Vector2(x * AppInfo.GRIDSIZE, y * AppInfo.GRIDSIZE), new Vector2((float)AppInfo.GRIDSIZE / AppInfo.TILESIZE), Color.Transparent, Vector2.Zero, source);
                 }
             }
+
+            if (Player != null) Player.Draw();
 
             foreach (BEntity entity in Level.Entities)
             {
