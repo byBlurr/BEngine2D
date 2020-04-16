@@ -1,4 +1,5 @@
 ﻿using OpenTK.Graphics.OpenGL;
+using System;
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
@@ -96,7 +97,7 @@ namespace BEngine2D.Render
 
             GL.End();
         }
-    
+
         public static void Begin(int screenWidth, int screenHeight)
         {
             GL.MatrixMode(MatrixMode.Projection);

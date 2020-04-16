@@ -78,10 +78,16 @@ namespace BEngine2D.GameStates
                     for (int y = 0; y < NavMesh.Height; y++)
                     {
                         var color = Color.Transparent;
-                        if (NavMesh[x, y] <= 20) color = Color.Green;
-                        else if (NavMesh[x, y] >= 90) color = Color.Red;
-                        else color = Color.Orange;
+
+                        if (NavMesh[x, y] == float.MaxValue) color = Color.FromArgb(255, 0, 0);
+                        else if (NavMesh[x, y] < 0) color = Color.FromArgb(0, 255, 0);
+                        else if (NavMesh[x, y] < 10) color = Color.FromArgb(40, 255, 0);
+                        else if (NavMesh[x, y] < 25) color = Color.FromArgb(100, 200, 0);
+                        else if (NavMesh[x, y] < 50) color = Color.FromArgb(200, 100, 0);
+                        else color = Color.Red;
+
                         BGraphics.DrawRec(new Vector2(x * NavMesh.TileSize, y * NavMesh.TileSize), new RectangleF(x * NavMesh.TileSize, y * NavMesh.TileSize, NavMesh.TileSize, NavMesh.TileSize), color);
+
                     }
                 }
             }
