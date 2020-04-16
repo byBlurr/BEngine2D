@@ -1,8 +1,5 @@
 ## Todo list in order...
-### BNavigationGrid
-- Refer to notebook notes
-
-### BGameSave
+### BGameSave ??
 - Save entities
 - Load entities
 - This is going to be complicated, not sure what the best way to do this is. Json? but then wont all entities need json constructors? Does that make it less user friendly to other developers using the engine?
