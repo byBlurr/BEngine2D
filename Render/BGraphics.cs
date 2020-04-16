@@ -40,6 +40,31 @@ namespace BEngine2D.Render
             GL.End();
         }
 
+        public static void DrawCollisionBox(Vector2 position, RectangleF collisionBox)
+        {
+            Vector2[] vertices = new Vector2[4]
+            {
+                new Vector2(0,0),
+                new Vector2(1,0),
+                new Vector2(1,1),
+                new Vector2(0,1),
+            };
+
+            GL.BindTexture(TextureTarget.Texture2D, 0);
+            GL.Begin(PrimitiveType.Quads);
+            GL.Color3(Color.MediumVioletRed);
+            for (int i = 0; i < 4; i++)
+            {
+                vertices[i].X *= collisionBox.Width;
+                vertices[i].Y *= collisionBox.Height;
+                vertices[i] += position;
+
+                GL.Vertex2(vertices[i].X, vertices[i].Y);
+            }
+
+            GL.End();
+        }
+
         public static void Draw(BTexture texture, Vector2 position, Vector2 scale, Color colorOverlay, Vector2 origin, RectangleF? sourceRec = null)
         {
             Vector2[] vertices = new Vector2[4]

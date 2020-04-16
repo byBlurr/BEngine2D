@@ -1,5 +1,6 @@
 ﻿using BEngine2D.Render;
-using System;
+using BEngine2D.Util;
+using BEngine2D.World;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Numerics;
@@ -27,7 +28,7 @@ namespace BEngine2D.Entities
 
             size = new Vector2(32f);
             currentSprite = new RectangleF(0, 0, spriteSheet.Width, spriteSheet.Height);
-            collisionBox = new RectangleF(0 - (size.X / 2), 0 - (size.Y), size.X, size.Y);
+            collisionBox = new RectangleF(0 - (size.X / 2), 0 - (size.Y /2), size.X, size.Y);
             drawBox = new RectangleF(0 - (size.X / 2), 0 - (size.Y), size.X, size.Y);
         }
         public BEntity(Vector2 position, BTexture spriteSheet, RectangleF spriteBox)
@@ -37,7 +38,7 @@ namespace BEngine2D.Entities
             this.currentSprite = spriteBox;
 
             size = new Vector2(32f);
-            collisionBox = new RectangleF(0 - (size.X / 2), 0 - (size.Y), size.X, size.Y);
+            collisionBox = new RectangleF(0 - (size.X / 2), 0 - (size.Y / 2), size.X, size.Y);
             drawBox = new RectangleF(0 - (size.X / 2), 0 - (size.Y), size.X, size.Y);
         }
         public BEntity(Vector2 position, BTexture spriteSheet, Vector2 size, RectangleF spriteBox)
@@ -47,7 +48,7 @@ namespace BEngine2D.Entities
             this.spritesheet = spriteSheet;
             this.currentSprite = spriteBox;
 
-            collisionBox = new RectangleF(0 - (size.X / 2), 0 - (size.Y), size.X, size.Y);
+            collisionBox = new RectangleF(0 - (size.X / 2), 0 - (size.Y / 2), size.X, size.Y);
             drawBox = new RectangleF(0 - (size.X / 2), 0 - (size.Y), size.X, size.Y);
         }
         public BEntity(Vector2 position, BTexture spriteSheet, Vector2 size, RectangleF spriteBox, RectangleF collisionBox)
@@ -61,7 +62,7 @@ namespace BEngine2D.Entities
             drawBox = new RectangleF(0 - (size.X / 2), 0 - (size.Y), size.X, size.Y);
         }
 
-        public virtual void Update(double delta)
+        public virtual void Update(double delta, BLevel level)
         {
         }
 
@@ -74,7 +75,9 @@ namespace BEngine2D.Entities
                 Color.Transparent,
                 Vector2.Zero,
                 currentSprite
-            );
+            ); 
+            
+            if (AppSettings.SETTING_DEBUG) BGraphics.DrawCollisionBox(this.position - (new Vector2(CollisionBox.Width, CollisionBox.Height) / 2f), CollisionBox);
         }
 
         public override bool Equals(object obj)

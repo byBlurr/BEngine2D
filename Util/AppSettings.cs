@@ -12,5 +12,6 @@
 
         // Developer Editable
         public static float SETTING_UPS = 30.0f;
+        public static bool SETTING_DEBUG = false;
     }
 }

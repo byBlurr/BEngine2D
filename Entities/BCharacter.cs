@@ -1,4 +1,6 @@
 ﻿using BEngine2D.Render;
+using BEngine2D.Util;
+using BEngine2D.World;
 using System;
 using System.Drawing;
 using System.Numerics;
@@ -64,12 +66,12 @@ namespace BEngine2D.Entities
             currentHealth = maxHealth;
         }
 
-        public override void Update(double delta)
+        public override void Update(double delta, BLevel level)
         {
-            base.Update(delta);
+            base.Update(delta, level);
 
             HandleMovement(delta);
-            ResolveCollision();
+            HandleCollision(level);
         }
 
         public void HandleMovement(double delta)
@@ -92,9 +94,64 @@ namespace BEngine2D.Entities
             this.position += (velocity * (float)delta);
         }
 
-        public void ResolveCollision()
+        public void HandleCollision(BLevel level)
         {
+            int minX = (int)(Math.Floor((this.position.X - size.X / 2f) / AppInfo.GRIDSIZE));
+            int minY = (int)(Math.Floor((this.position.Y - size.Y / 2f) / AppInfo.GRIDSIZE));
+            int maxX = (int)(Math.Floor((this.position.X + size.X / 2f) / AppInfo.GRIDSIZE));
+            int maxY = (int)(Math.Floor((this.position.Y + size.Y / 2f) / AppInfo.GRIDSIZE));
+            RectangleF thisCollide = new RectangleF(position.X + CollisionBox.X, position.Y + CollisionBox.Y, CollisionBox.Width, CollisionBox.Height);
 
+            for (int x = minX; x <= maxX; x++)
+            {
+                for (int y = minY; y <= maxY; y++)
+                {
+                    RectangleF blockRec = new RectangleF(x * AppInfo.GRIDSIZE, y * AppInfo.GRIDSIZE, AppInfo.GRIDSIZE, AppInfo.GRIDSIZE);
+
+                    if (level[x, y].IsSolid && thisCollide.IntersectsWith(blockRec))
+                    {
+                        #region Resolve Collision
+
+                        float[] depths = new float[4]
+                        {
+                            blockRec.Right - thisCollide.Left, // Pos X
+                            blockRec.Bottom - thisCollide.Top, // Pos Y
+                            thisCollide.Right - blockRec.Left, // Neg X
+                            thisCollide.Bottom - blockRec.Top, // Neg Y
+                        };
+
+                        Point[] directions = new Point[4]
+                        {
+                            new Point(1, 0),
+                            new Point(0, 1),
+                            new Point(-1, 0),
+                            new Point(0, -1),
+                        };
+
+                        float min = float.MaxValue;
+                        Vector2 minDirection = Vector2.Zero;
+
+                        for (int i = 0; i < 4; i++)
+                        {
+                            if (!level[x + directions[i].X, y + directions[i].Y].IsSolid &&
+                                depths[i] < min)
+                            {
+                                min = depths[i];
+                                minDirection = new Vector2(directions[i].X, directions[i].Y);
+                            }
+                        }
+
+                        if (min == float.MaxValue)
+                            continue;
+
+                        this.position += minDirection * min;
+
+                        if (this.velocity.X * minDirection.X < 0) this.velocity.X = 0;
+                        if (this.velocity.Y * minDirection.Y < 0) this.velocity.Y = 0;
+                        #endregion
+                    }
+                }
+            }
         }
 
         public override void Draw()

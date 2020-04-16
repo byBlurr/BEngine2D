@@ -1,4 +1,5 @@
 ﻿using BEngine2D.Render;
+using BEngine2D.World;
 using System.Drawing;
 using System.Numerics;
 
@@ -24,10 +25,10 @@ namespace BEngine2D.Entities
             base.Draw();
         }
 
-        public override void Update(double delta)
+        public override void Update(double delta, BLevel level)
         {
             HandleInput();
-            base.Update(delta);
+            base.Update(delta, level);
         }
 
         public void HandleInput()
