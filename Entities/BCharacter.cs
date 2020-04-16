@@ -129,11 +129,39 @@ namespace BEngine2D.Entities
             }
 
             if (velocity == Vector2.Zero) currentState = BEntityState.Idle;
-            if (velocity.X > 0.00f) currentState = BEntityState.MovingR;
-            if (velocity.X < 0.00f) currentState = BEntityState.MovingL;
+            if (velocity.Y > 0f)
+            {
+                if (velocity.X > 0f)
+                {
+                    if (velocity.X > velocity.Y) currentState = BEntityState.MovingR;
+                    else if (velocity.X < velocity.Y) currentState = BEntityState.MovingD;
+                }
+                if (velocity.X < 0f)
+                {
+                    if (-velocity.X > velocity.Y) currentState = BEntityState.MovingL;
+                    else if (-velocity.X < velocity.Y) currentState = BEntityState.MovingD;
+                }
+            }
+            else if (velocity.Y < 0f)
+            {
+                if (velocity.X > 0f)
+                {
+                    if (velocity.X > -velocity.Y) currentState = BEntityState.MovingR;
+                    else if (velocity.X < -velocity.Y) currentState = BEntityState.MovingU;
+                }
+                if (velocity.X < 0f)
+                {
+                    if (-velocity.X > -velocity.Y) currentState = BEntityState.MovingL;
+                    else if (-velocity.X < -velocity.Y) currentState = BEntityState.MovingU;
+                }
+            }
+            else
+            {
+                if (velocity.X > 0f) currentState = BEntityState.MovingR;
+                if (velocity.X < 0f) currentState = BEntityState.MovingL;
+            }
 
             velocity = new Vector2(Maths.Clamp(velocity.X, -MaxMovementSpeed, MaxMovementSpeed), Maths.Clamp(velocity.Y, -MaxMovementSpeed, MaxMovementSpeed));
-            Console.WriteLine(velocity);
             this.position += (velocity * (float)delta);
         }
 
