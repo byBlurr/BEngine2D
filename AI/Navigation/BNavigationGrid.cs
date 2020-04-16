@@ -50,7 +50,7 @@ namespace BEngine2D.AI.Navigation
                     {
                         if (entity != null)
                         {
-                            if (gridTile.IntersectsWith(entity.CollisionBox))
+                            if (gridTile.IntersectsWith(new RectangleF(entity.CollisionBox.X + entity.position.X, entity.CollisionBox.Y + entity.position.Y, entity.CollisionBox.Width, entity.CollisionBox.Height)))
                             {
                                 this[x, y] = 100f;
                             }
