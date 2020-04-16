@@ -12,6 +12,7 @@
 
         // Developer Editable
         public static float SETTING_UPS = 30.0f;
-        public static bool SETTING_DEBUG = false;
+        public static bool SETTING_COLLISION_DEBUG = false;
+        public static bool SETTING_NAVIGATION_DEBUG = false;
     }
 }
