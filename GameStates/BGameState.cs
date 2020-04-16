@@ -85,16 +85,15 @@ namespace BEngine2D.GameStates
 
             if (AppSettings.SETTING_PATHFINDING_DEBUG)
             {
-                for (int x = 0; x < NavMesh.Width; x++)
+                if (NavMesh.DestNode != null)
                 {
-                    for (int y = 0; y < NavMesh.Height; y++)
-                    {
-                        var color = Color.Green;
-                        if (NavMesh[x, y].Obstructed) color = Color.Red;
-                        else if (NavMesh[x, y].Visited) color = Color.Yellow; // This will be changed to if it is part of the path I guess
-                        else if (NavMesh[x, y].Destination) color = Color.Orange;
+                    BPathNode pathNode = NavMesh.DestNode;
+                    BGraphics.DrawRec(new Vector2(pathNode.X * NavMesh.TileSize, pathNode.Y * NavMesh.TileSize), new RectangleF(pathNode.X * NavMesh.TileSize, pathNode.Y * NavMesh.TileSize, NavMesh.TileSize, NavMesh.TileSize), Color.Orange);
 
-                        BGraphics.DrawRec(new Vector2(x * NavMesh.TileSize, y * NavMesh.TileSize), new RectangleF(x * NavMesh.TileSize, y * NavMesh.TileSize, NavMesh.TileSize, NavMesh.TileSize), color);
+                    while (pathNode.Parent != null)
+                    {
+                        BGraphics.DrawRec(new Vector2(pathNode.X * NavMesh.TileSize, pathNode.Y * NavMesh.TileSize), new RectangleF(pathNode.X * NavMesh.TileSize, pathNode.Y * NavMesh.TileSize, NavMesh.TileSize, NavMesh.TileSize), Color.Yellow);
+                        pathNode = pathNode.Parent;
                     }
                 }
             }

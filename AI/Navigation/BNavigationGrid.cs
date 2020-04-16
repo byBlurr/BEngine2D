@@ -16,6 +16,7 @@ namespace BEngine2D.AI.Navigation
     {
         protected int x, y, width, height, tileSize;
         protected BPathNode[,] grid;
+        protected BPathNode destNode;
 
         public BNavigationGrid(int x, int y, int width, int height, int tileSize)
         {
@@ -24,6 +25,7 @@ namespace BEngine2D.AI.Navigation
             this.width = width;
             this.height = height;
             this.tileSize = tileSize;
+            this.destNode = null;
 
             // Initiate the nodes
             this.grid = new BPathNode[width, height];
@@ -108,7 +110,7 @@ namespace BEngine2D.AI.Navigation
             if (startX >= 0 && startX < width && destX >= 0&& destX < width && startY >= 0 && startY < height && destY >= 0 && destY < height)
             {
                 List<BPathNode> nodes = new List<BPathNode>();
-                var destNode = grid[destX, destY];
+                destNode = grid[destX, destY];
                 destNode.Destination = true;
 
                 var startNode = grid[startX, startY];
@@ -136,6 +138,7 @@ namespace BEngine2D.AI.Navigation
         public float Width { get => width; }
         public float Height { get => height; }
         public float TileSize { get => tileSize; }
+        public BPathNode DestNode { get => destNode; }
     }
 
     public class BPathNode
