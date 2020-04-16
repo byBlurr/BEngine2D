@@ -16,7 +16,7 @@ namespace BEngine2D.AI.Navigation
     {
         protected int x, y, width, height, tileSizeX, tileSizeY;
         protected BPathNode[,] grid;
-        protected BPathNode destNode;
+        protected BPathNode destNode, startNode;
 
         public BNavigationGrid(int x, int y, int levelWidth, int levelHeight, int levelTileSize, int tileSizeX, int tileSizeY)
         {
@@ -27,6 +27,7 @@ namespace BEngine2D.AI.Navigation
             this.tileSizeX = tileSizeX;
             this.tileSizeY = tileSizeY;
             this.destNode = null;
+            this.startNode = null;
 
             // Initiate the nodes
             this.grid = new BPathNode[width, height];
@@ -83,11 +84,16 @@ namespace BEngine2D.AI.Navigation
                     }
                 }
             }
+
+            if (destNode != null && startNode != null)
+            {
+                // Update the path
+            }
         }
 
-        public BNavigationGrid FindPathTo(Vector2 start, Vector2 destination)
+        public void FindPathTo(Vector2 start, Vector2 destination)
         {
-            if (start == destination) return null;
+            if (start == destination) return;
 
             for (int x2 = 0; x2 < width; x2++)
             {
@@ -111,7 +117,7 @@ namespace BEngine2D.AI.Navigation
                 destNode = grid[destX, destY];
                 destNode.Destination = true;
 
-                var startNode = grid[startX, startY];
+                startNode = grid[startX, startY];
                 startNode.LocalGoal = 0.0f;
                 startNode.GlobalGoal = DistanceBetweenNodes(startNode, destNode);
 
@@ -147,7 +153,6 @@ namespace BEngine2D.AI.Navigation
                     }
                 }
             }
-            return this;
         }
 
         private float DistanceBetweenNodes(BPathNode node1, BPathNode node2)
@@ -174,7 +179,8 @@ namespace BEngine2D.AI.Navigation
         public float Height { get => height; }
         public float TileSizeX { get => tileSizeX; }
         public float TileSizeY { get => tileSizeY; }
-        public BPathNode DestNode { get => destNode; }
+        public BPathNode DestNode { get => destNode; set => destNode = value; }
+        public BPathNode StartNode { get => startNode; set => startNode = value; }
     }
 
     public class BPathNode

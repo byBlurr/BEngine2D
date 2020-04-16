@@ -123,7 +123,8 @@ namespace BEngine2D.Entities
                     else
                     {
                         velocity = Vector2.Zero;
-                        path = null;
+                        path.DestNode = null;
+                        path.StartNode = null;
                     }
                 }
             }
