@@ -77,7 +77,7 @@ namespace BEngine2D.Entities
                 currentSprite
             ); 
             
-            if (AppSettings.SETTING_COLLISION_DEBUG) BGraphics.DrawCollisionBox((this.position + new Vector2(CollisionBox.X, CollisionBox.Y)), CollisionBox);
+            if (AppSettings.SETTING_COLLISION_DEBUG) BGraphics.DrawCollisionBox((this.position + new Vector2(CollisionBox.X, CollisionBox.Y)), CollisionBox, Color.AliceBlue);
         }
 
         public override bool Equals(object obj)

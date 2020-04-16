@@ -1,8 +1,10 @@
-﻿using BEngine2D.Entities;
+﻿using BEngine2D.AI.Navigation;
+using BEngine2D.Entities;
 using BEngine2D.Render;
 using BEngine2D.Util;
 using BEngine2D.World;
 using BEngine2D.World.Blocks;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -15,6 +17,8 @@ namespace BEngine2D.GameStates
         protected BLevel Level;
         protected BCamera Camera;
         protected BPlayableCharacter Player;
+        protected BNavigationGrid NavMesh;
+
         protected BTexture[] Textures = new BTexture[255];
 
         public override void OnLoad(BWindow Window)
@@ -25,6 +29,9 @@ namespace BEngine2D.GameStates
             BBlocks.Initialise();
             InitialiseBlocks();
             InitialiseLevel();
+
+            this.NavMesh = new BNavigationGrid(0, 0, Level.Width * 4, Level.Height * 4, AppInfo.GRIDSIZE /4);
+            NavMesh.Update(Level);
         }
         public virtual void InitialiseTextures() { }
 
@@ -63,6 +70,21 @@ namespace BEngine2D.GameStates
             {
                 if (entity == null) return;
                 entity.Draw();
+            }
+
+            if (AppSettings.SETTING_NAVIGATION_DEBUG)
+            {
+                for (int x = 0; x < NavMesh.Width; x++)
+                {
+                    for (int y = 0; y < NavMesh.Height; y++)
+                    {
+                        var color = Color.Transparent;
+                        if (NavMesh[x, y] <= 20) color = Color.Green;
+                        else if (NavMesh[x, y] >= 90) color = Color.Red;
+                        else color = Color.Orange;
+                        BGraphics.DrawCollisionBox(new Vector2(x * NavMesh.TileSize, y * NavMesh.TileSize), new RectangleF(x * NavMesh.TileSize, y * NavMesh.TileSize, NavMesh.TileSize, NavMesh.TileSize), color);
+                    }
+                }
             }
         }
     }

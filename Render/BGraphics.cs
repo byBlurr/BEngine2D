@@ -40,7 +40,7 @@ namespace BEngine2D.Render
             GL.End();
         }
 
-        public static void DrawCollisionBox(Vector2 position, RectangleF collisionBox)
+        public static void DrawCollisionBox(Vector2 position, RectangleF collisionBox, Color color)
         {
             Vector2[] vertices = new Vector2[4]
             {
@@ -52,7 +52,7 @@ namespace BEngine2D.Render
 
             GL.BindTexture(TextureTarget.Texture2D, 0);
             GL.Begin(PrimitiveType.Quads);
-            GL.Color3(Color.MediumVioletRed);
+            GL.Color3(color);
             for (int i = 0; i < 4; i++)
             {
                 vertices[i].X *= collisionBox.Width;

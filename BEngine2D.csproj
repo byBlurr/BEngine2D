@@ -53,6 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AI\Navigation\BNavigationGrid.cs" />
     <Compile Include="BLauncher.cs" />
     <Compile Include="BLaunchWindow.cs">
       <SubType>Form</SubType>
