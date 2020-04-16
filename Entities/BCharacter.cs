@@ -20,7 +20,7 @@ namespace BEngine2D.Entities
         public BPathNode pathNode;
 
         // States
-        private BEntityState currentState;
+        public BEntityState currentState;
 
         // Statistics
         private float maxMovementSpeed;
@@ -112,7 +112,6 @@ namespace BEngine2D.Entities
                         Vector2 nodeVec = new Vector2(pathNode.X * path.TileSizeX, pathNode.Y * path.TileSizeY);
                         if (Vector2.Distance(nodeVec, position) > 10.0f)
                         {
-                            Console.WriteLine(Vector2.Distance(nodeVec, position));
                             Vector2 dir = new Vector2(nodeVec.X, nodeVec.Y) - position;
                             MoveInDirection(dir);
                         }
@@ -133,6 +132,8 @@ namespace BEngine2D.Entities
             if (velocity.X > 0.00f) currentState = BEntityState.MovingR;
             if (velocity.X < 0.00f) currentState = BEntityState.MovingL;
 
+            velocity = new Vector2(Maths.Clamp(velocity.X, -MaxMovementSpeed, MaxMovementSpeed), Maths.Clamp(velocity.Y, -MaxMovementSpeed, MaxMovementSpeed));
+            Console.WriteLine(velocity);
             this.position += (velocity * (float)delta);
         }
 
