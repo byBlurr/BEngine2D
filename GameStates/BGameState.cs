@@ -4,7 +4,6 @@ using BEngine2D.Render;
 using BEngine2D.Util;
 using BEngine2D.World;
 using BEngine2D.World.Blocks;
-using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -61,6 +60,17 @@ namespace BEngine2D.GameStates
                 }
             }
 
+            List<BEntity> renderOrder = new List<BEntity>();
+            renderOrder.AddRange(Level.Entities);
+            if (Player != null) renderOrder.Add(Player);
+            renderOrder = renderOrder.OrderBy(x => x.GroundLevel).ToList<BEntity>();
+
+            foreach (BEntity entity in renderOrder)
+            {
+                if (entity == null) return;
+                entity.Draw();
+            }
+
             if (AppSettings.SETTING_NAVIGATION_DEBUG)
             {
                 for (int x = 0; x < NavMesh.Width; x++)
@@ -74,17 +84,6 @@ namespace BEngine2D.GameStates
                         BGraphics.DrawRec(new Vector2(x * NavMesh.TileSize, y * NavMesh.TileSize), new RectangleF(x * NavMesh.TileSize, y * NavMesh.TileSize, NavMesh.TileSize, NavMesh.TileSize), color);
                     }
                 }
-            }
-
-            List<BEntity> renderOrder = new List<BEntity>();
-            renderOrder.AddRange(Level.Entities);
-            if (Player != null) renderOrder.Add(Player);
-            renderOrder = renderOrder.OrderBy(x => x.GroundLevel).ToList<BEntity>();
-
-            foreach (BEntity entity in renderOrder)
-            {
-                if (entity == null) return;
-                entity.Draw();
             }
         }
     }
