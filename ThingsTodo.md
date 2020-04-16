@@ -1,6 +1,6 @@
 ## Todo list in order...
-### BCharacter Collision
-- All classes derived from BCharacter should have this
+### BNavigationGrid
+- Refer to notebook notes
 
 ### BGameSave
 - Save entities
