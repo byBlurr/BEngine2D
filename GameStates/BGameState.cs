@@ -61,17 +61,6 @@ namespace BEngine2D.GameStates
                 }
             }
 
-            List<BEntity> renderOrder = new List<BEntity>();
-            renderOrder.AddRange(Level.Entities);
-            if (Player != null) renderOrder.Add(Player);
-            renderOrder = renderOrder.OrderBy(x => x.GroundLevel).ToList<BEntity>();
-
-            foreach (BEntity entity in renderOrder)
-            {
-                if (entity == null) return;
-                entity.Draw();
-            }
-
             if (AppSettings.SETTING_NAVIGATION_DEBUG)
             {
                 for (int x = 0; x < NavMesh.Width; x++)
@@ -82,9 +71,20 @@ namespace BEngine2D.GameStates
                         if (NavMesh[x, y] <= 20) color = Color.Green;
                         else if (NavMesh[x, y] >= 90) color = Color.Red;
                         else color = Color.Orange;
-                        BGraphics.DrawCollisionBox(new Vector2(x * NavMesh.TileSize, y * NavMesh.TileSize), new RectangleF(x * NavMesh.TileSize, y * NavMesh.TileSize, NavMesh.TileSize, NavMesh.TileSize), color);
+                        BGraphics.DrawRec(new Vector2(x * NavMesh.TileSize, y * NavMesh.TileSize), new RectangleF(x * NavMesh.TileSize, y * NavMesh.TileSize, NavMesh.TileSize, NavMesh.TileSize), color);
                     }
                 }
+            }
+
+            List<BEntity> renderOrder = new List<BEntity>();
+            renderOrder.AddRange(Level.Entities);
+            if (Player != null) renderOrder.Add(Player);
+            renderOrder = renderOrder.OrderBy(x => x.GroundLevel).ToList<BEntity>();
+
+            foreach (BEntity entity in renderOrder)
+            {
+                if (entity == null) return;
+                entity.Draw();
             }
         }
     }

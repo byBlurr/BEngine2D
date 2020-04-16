@@ -40,7 +40,7 @@ namespace BEngine2D.Render
             GL.End();
         }
 
-        public static void DrawCollisionBox(Vector2 position, RectangleF collisionBox, Color color)
+        public static void DrawRec(Vector2 position, RectangleF collisionBox, Color color)
         {
             Vector2[] vertices = new Vector2[4]
             {
